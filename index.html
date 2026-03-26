@@ -252,9 +252,10 @@
   #marca { background: #0D0D0D; }
   .marca-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     max-width: 1200px;
+    margin: 0 auto;
   }
   .marca-hero-card {
     grid-column: 1 / -1;
@@ -319,6 +320,7 @@
     grid-template-columns: 1.2fr 1fr;
     gap: 40px;
     max-width: 1200px;
+    margin: 0 auto;
     align-items: start;
   }
   .producto-features {
@@ -403,7 +405,7 @@
   .necesidad-intro {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 48px; max-width: 1200px; align-items: center;
-    margin-bottom: 80px;
+    margin: 0 auto 80px;
   }
   .big-stat {
     text-align: center; padding: 48px;
@@ -435,6 +437,7 @@
   .crisis-cards {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 20px; max-width: 1200px;
+    margin: 0 auto;
   }
   .crisis-card {
     border-radius: 20px; padding: 32px;
@@ -457,7 +460,7 @@
 
   /* ===== SECTION 4: SITUACIÓN ACTUAL ===== */
   #situacion { background: #080810; }
-  .situacion-grid { max-width: 1200px; }
+  .situacion-grid { max-width: 1200px; margin: 0 auto; }
 
   /* FODA */
   .foda-grid {
@@ -553,7 +556,7 @@
   #mercado { background: #0A0A0A; }
   .perfiles-map {
     max-width: 1100px;
-    margin-bottom: 64px;
+    margin: 0 auto 64px;
   }
   .map-container {
     position: relative;
@@ -625,6 +628,7 @@
   .personas-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
     gap: 16px; max-width: 1200px;
+    margin: 0 auto;
   }
   .persona-card {
     border-radius: 20px; padding: 28px;
@@ -673,6 +677,7 @@
   .pos-layout {
     display: grid; grid-template-columns: 1.3fr 1fr;
     gap: 48px; max-width: 1200px; align-items: start;
+    margin: 0 auto;
   }
 
   /* Positioning map */
@@ -744,6 +749,7 @@
   #journey { background: #0A0A0A; }
   .journey-flow {
     max-width: 1100px;
+    margin: 0 auto;
     position: relative;
   }
   .journey-line {
@@ -870,6 +876,10 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none; z-index: 9997;
     opacity: 0.4;
+  }
+
+  @media (max-width: 1100px) {
+    .personas-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 900px) {
@@ -1197,7 +1207,7 @@
   <!-- Mapa de Perfiles -->
   <div class="perfiles-map reveal">
     <h3 class="obj-section-title" style="margin-bottom:20px">Mapa de Perfiles</h3>
-    <div class="map-container" style="max-width:700px;height:500px">
+    <div class="map-container" style="max-width:700px">
       <div class="axis-x"></div>
       <div class="axis-y"></div>
       <div class="axis-label top">ALTO interés en bienestar</div>
@@ -1433,9 +1443,9 @@
   </div>
 
   <!-- Puntos de venta -->
-  <div style="max-width:1100px;margin-top:80px">
+  <div style="max-width:1100px;margin:80px auto 0">
     <h3 class="obj-section-title reveal">Puntos de Venta</h3>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
       <div class="card reveal" style="text-align:center">
         <div style="font-size:2.5rem;margin-bottom:12px">📱</div>
         <h4 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;margin-bottom:6px">Digitales directos</h4>
