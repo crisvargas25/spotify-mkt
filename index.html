@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify × Bienestar — Proyecto Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1DB954;
+    --green-neon: #3DFF7A;
+    --pink: #FF4D8F;
+    --yellow: #FFE600;
+    --purple: #7B2FFF;
+    --blue: #00D4FF;
+    --orange: #FF6B35;
+    --dark: #0A0A0A;
+    --darker: #060606;
+    --card-bg: #111111;
+    --text: #FFFFFF;
+    --text-muted: rgba(255,255,255,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--green-neon);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-trail {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--green-neon);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* PROGRESS BAR */
+  #progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--pink), var(--yellow));
+    z-index: 1000;
+    transition: width 0.1s ease;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,10,0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo svg { width: 28px; height: 28px; }
+  .nav-links {
+    display: flex; gap: 32px;
+    list-style: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .nav-links a {
+    color: inherit; text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green-neon); }
+
+  /* SECTIONS */
+  section {
+    min-height: 100vh;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* HERO */
+  #hero {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    background: var(--darker);
+  }
+  .hero-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+    background: rgba(61,255,122,0.1);
+    border: 1px solid rgba(61,255,122,0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    display: inline-flex;
+  }
+  .hero-headline {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+  }
+  .hero-headline .line-green { color: var(--green-neon); }
+  .hero-headline .line-pink { color: var(--pink); -webkit-text-stroke: 2px var(--pink); color: transparent; }
+  .hero-sub {
+    margin-top: 40px;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .hero-cta {
+    margin-top: 48px;
+    display: flex; gap: 16px; align-items: center;
+  }
+  .btn-primary {
+    background: var(--green-neon);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 14px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 40px rgba(61,255,122,0.4);
+  }
+  .btn-ghost {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: #fff; }
+
+  .hero-stats {
+    position: absolute; right: 80px; bottom: 80px;
+    display: flex; gap: 48px;
+  }
+  .hero-stat-item { text-align: right; }
+  .hero-stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--green-neon), var(--blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  .hero-bg-shape {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,185,84,0.12) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  /* SECTION LABELS */
+  .section-number {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-number::after {
+    content: '';
+    flex: 1; max-width: 60px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 64px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  /* ===== SECTION 1: MARCA ===== */
+  #marca { background: #0D0D0D; }
+  .marca-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1200px;
+  }
+  .marca-hero-card {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+    border: 1px solid rgba(29,185,84,0.3);
+    border-radius: 28px;
+    padding: 56px;
+    display: flex; align-items: center; gap: 56px;
+    position: relative; overflow: hidden;
+  }
+  .marca-hero-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 50%, rgba(29,185,84,0.08) 0%, transparent 60%);
+  }
+  .spotify-big-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--green);
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .spotify-big-logo svg { width: 72px; height: 72px; }
+  .marca-hero-text h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .marca-hero-text p {
+    color: var(--text-muted);
+    line-height: 1.65;
+    font-size: 0.95rem;
+  }
+
+  .pillar-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px;
+    transition: all 0.3s;
+  }
+  .pillar-card:hover { border-color: var(--green-neon); transform: translateY(-4px); }
+  .pillar-icon {
+    font-size: 2.5rem; margin-bottom: 16px;
+  }
+  .pillar-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800;
+    margin-bottom: 8px; color: var(--green-neon);
+  }
+  .pillar-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ===== SECTION 2: PRODUCTO ===== */
+  #producto { background: #0A0A14; }
+  .producto-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    align-items: start;
+  }
+  .producto-features {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .feature-row {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 24px;
+    background: rgba(123,47,255,0.08);
+    border: 1px solid rgba(123,47,255,0.2);
+    border-radius: 16px;
+    transition: all 0.3s;
+  }
+  .feature-row:hover { background: rgba(123,47,255,0.15); border-color: var(--purple); }
+  .feature-dot {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .feature-row h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .feature-row p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+  .producto-visual {
+    position: sticky; top: 140px;
+  }
+  .phone-mockup {
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 32px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .phone-mockup::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(123,47,255,0.25) 0%, transparent 70%);
+  }
+  .phone-screen {
+    background: linear-gradient(180deg, #1a0a2e 0%, #0d1a0d 100%);
+    border-radius: 20px;
+    padding: 32px 20px;
+    position: relative;
+  }
+  .mood-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .now-playing {
+    margin: 20px 0;
+  }
+  .track-bar {
+    height: 3px; background: rgba(255,255,255,0.15);
+    border-radius: 100px; margin: 16px 0; overflow: hidden;
+  }
+  .track-progress {
+    height: 100%; width: 62%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 100px;
+  }
+  .daylist-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--green-neon), var(--blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .daylist-sub { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* ===== SECTION 3: NECESIDAD ===== */
+  #necesidad { background: linear-gradient(180deg, #120a00 0%, #0a0a0a 100%); }
+  .necesidad-intro {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; max-width: 1200px; align-items: center;
+    margin-bottom: 80px;
+  }
+  .big-stat {
+    text-align: center; padding: 48px;
+    background: rgba(255,77,143,0.06);
+    border: 1px solid rgba(255,77,143,0.2);
+    border-radius: 28px;
+  }
+  .big-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 7rem; font-weight: 900;
+    line-height: 1;
+    color: var(--pink);
+    text-shadow: 0 0 60px rgba(255,77,143,0.3);
+  }
+  .big-number-label {
+    font-size: 1rem; color: var(--text-muted);
+    margin-top: 12px; line-height: 1.5;
+  }
+  .necesidad-copy h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem; font-weight: 900;
+    line-height: 1.1; margin-bottom: 20px;
+  }
+  .necesidad-copy p {
+    color: var(--text-muted); line-height: 1.7;
+    margin-bottom: 16px; font-size: 0.95rem;
+  }
+
+  .crisis-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; max-width: 1200px;
+  }
+  .crisis-card {
+    border-radius: 20px; padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .crisis-card.pink { background: rgba(255,77,143,0.1); border: 1px solid rgba(255,77,143,0.25); }
+  .crisis-card.orange { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); }
+  .crisis-card.yellow { background: rgba(255,230,0,0.08); border: 1px solid rgba(255,230,0,0.2); }
+  .crisis-card .cc-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .crisis-card h4 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+  .crisis-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+  .crisis-card .cc-stat {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .crisis-card.pink .cc-stat { color: var(--pink); }
+  .crisis-card.orange .cc-stat { color: var(--orange); }
+  .crisis-card.yellow .cc-stat { color: var(--yellow); }
+
+  /* ===== SECTION 4: SITUACIÓN ACTUAL ===== */
+  #situacion { background: #080810; }
+  .situacion-grid { max-width: 1200px; }
+
+  /* FODA */
+  .foda-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-bottom: 80px;
+  }
+  .foda-card {
+    border-radius: 24px; padding: 36px;
+    transition: transform 0.3s;
+  }
+  .foda-card:hover { transform: scale(1.02); }
+  .foda-card.fortaleza {
+    background: rgba(61,255,122,0.08);
+    border: 1px solid rgba(61,255,122,0.25);
+  }
+  .foda-card.oportunidad {
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.25);
+  }
+  .foda-card.debilidad {
+    background: rgba(255,230,0,0.06);
+    border: 1px solid rgba(255,230,0,0.2);
+  }
+  .foda-card.amenaza {
+    background: rgba(255,77,143,0.08);
+    border: 1px solid rgba(255,77,143,0.25);
+  }
+  .foda-label {
+    font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .foda-card.fortaleza .foda-label { color: var(--green-neon); }
+  .foda-card.oportunidad .foda-label { color: var(--blue); }
+  .foda-card.debilidad .foda-label { color: var(--yellow); }
+  .foda-card.amenaza .foda-label { color: var(--pink); }
+  .foda-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 900;
+    margin-bottom: 16px;
+  }
+  .foda-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .foda-items li {
+    font-size: 0.85rem; color: var(--text-muted);
+    padding-left: 16px; position: relative; line-height: 1.5;
+  }
+  .foda-items li::before {
+    content: '—'; position: absolute; left: 0;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* OBJETIVOS */
+  .obj-section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    margin-bottom: 32px;
+  }
+  .obj-list {
+    display: flex; flex-direction: column; gap: 16px;
+    max-width: 900px;
+  }
+  .obj-item {
+    display: flex; align-items: flex-start; gap: 24px;
+    padding: 24px 28px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .obj-item:hover { border-color: rgba(255,255,255,0.2); transform: translateX(8px); }
+  .obj-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    opacity: 0.2; line-height: 1; flex-shrink: 0;
+    min-width: 32px;
+  }
+  .obj-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .obj-content p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.55; }
+  .obj-badge {
+    margin-left: auto; padding: 4px 12px;
+    border-radius: 100px; font-size: 0.68rem;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; white-space: nowrap;
+    align-self: center; flex-shrink: 0;
+  }
+
+  /* ===== SECTION 5: MERCADO META ===== */
+  #mercado { background: #0A0A0A; }
+  .perfiles-map {
+    max-width: 1100px;
+    margin-bottom: 64px;
+  }
+  .map-container {
+    position: relative;
+    width: 100%; aspect-ratio: 1 / 0.85;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  /* Axes */
+  .axis-x, .axis-y {
+    position: absolute;
+    background: rgba(255,255,255,0.12);
+  }
+  .axis-x {
+    width: calc(100% - 80px); height: 1px;
+    top: 50%; left: 40px;
+  }
+  .axis-y {
+    height: calc(100% - 80px); width: 1px;
+    left: 50%; top: 40px;
+  }
+  .axis-label {
+    position: absolute;
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .axis-label.left { left: 16px; top: 50%; transform: translateY(-50%) rotate(-90deg); white-space: nowrap; }
+  .axis-label.right { right: 16px; top: 50%; transform: translateY(-50%) rotate(90deg); white-space: nowrap; }
+  .axis-label.top { top: 12px; left: 50%; transform: translateX(-50%); }
+  .axis-label.bottom { bottom: 12px; left: 50%; transform: translateX(-50%); }
+
+  .profile-bubble {
+    position: absolute;
+    border-radius: 16px;
+    padding: 16px 20px;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s; cursor: default;
+    min-width: 180px;
+    text-align: center;
+  }
+  .profile-bubble:hover { transform: translate(-50%, -50%) scale(1.08); z-index: 10; }
+  .profile-bubble.primary {
+    background: rgba(61,255,122,0.18);
+    border: 2px solid var(--green-neon);
+  }
+  .profile-bubble.secondary {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .profile-bubble h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .profile-bubble p { font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
+  .primary-tag {
+    position: absolute; top: -10px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--green-neon); color: #000;
+    font-size: 0.62rem; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* PERSONAS */
+  .personas-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; max-width: 1200px;
+  }
+  .persona-card {
+    border-radius: 20px; padding: 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--card-bg);
+    transition: all 0.3s; position: relative;
+    overflow: hidden;
+  }
+  .persona-card.featured {
+    border-color: rgba(61,255,122,0.4);
+    background: rgba(61,255,122,0.05);
+  }
+  .persona-card.featured::after {
+    content: '★ Principal';
+    position: absolute; top: 12px; right: 12px;
+    background: var(--green-neon); color: #000;
+    font-size: 0.6rem; font-weight: 800;
+    padding: 3px 10px; border-radius: 100px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .persona-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    background: rgba(255,255,255,0.06);
+  }
+  .persona-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 800; margin-bottom: 4px;
+  }
+  .persona-age {
+    font-size: 0.72rem; color: var(--text-muted);
+    margin-bottom: 16px; font-weight: 500;
+  }
+  .persona-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
+  .persona-tag {
+    display: inline-block; padding: 4px 12px;
+    border-radius: 100px; font-size: 0.68rem;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== SECTION 6: POSICIONAMIENTO ===== */
+  #posicionamiento { background: #08080F; }
+  .pos-layout {
+    display: grid; grid-template-columns: 1.3fr 1fr;
+    gap: 48px; max-width: 1200px; align-items: start;
+  }
+
+  /* Positioning map */
+  .pos-map {
+    position: relative;
+    aspect-ratio: 1;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px; overflow: hidden;
+    padding: 40px;
+  }
+  .pos-axis-x, .pos-axis-y {
+    position: absolute; background: rgba(255,255,255,0.1);
+  }
+  .pos-axis-x { height: 1px; width: calc(100% - 80px); top: 50%; left: 40px; }
+  .pos-axis-y { width: 1px; height: calc(100% - 80px); left: 50%; top: 40px; }
+  .pos-label {
+    position: absolute; font-size: 0.65rem;
+    font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.3);
+  }
+  .pos-label.top { top: 16px; left: 50%; transform: translateX(-50%); }
+  .pos-label.bottom { bottom: 16px; left: 50%; transform: translateX(-50%); }
+  .pos-label.left-l { left: 16px; top: 50%; transform: translateY(-50%) rotate(-90deg); white-space: nowrap; }
+  .pos-label.right-l { right: 16px; top: 50%; transform: translateY(-50%) rotate(90deg); white-space: nowrap; }
+
+  .brand-dot {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; cursor: default;
+    transition: all 0.3s;
+  }
+  .brand-dot:hover { z-index: 10; }
+  .brand-dot .dot-inner {
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+  .brand-dot:hover .dot-inner { transform: scale(1.2); }
+  .brand-dot .dot-label {
+    position: absolute; top: calc(100% + 8px);
+    font-size: 0.72rem; font-weight: 700;
+    white-space: nowrap; text-align: center;
+  }
+
+  /* Comparison table */
+  .comp-table { width: 100%; }
+  .comp-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .comp-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 800;
+    width: 120px; flex-shrink: 0;
+  }
+  .comp-bar-wrap { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .comp-metric { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .comp-bar { height: 6px; border-radius: 100px; background: rgba(255,255,255,0.08); overflow: hidden; }
+  .comp-bar-fill { height: 100%; border-radius: 100px; transition: width 1.5s ease; }
+  .comp-price {
+    font-size: 0.8rem; font-weight: 700;
+    width: 60px; text-align: right; flex-shrink: 0;
+  }
+
+  /* ===== SECTION 7: JOURNEY ===== */
+  #journey { background: #0A0A0A; }
+  .journey-flow {
+    max-width: 1100px;
+    position: relative;
+  }
+  .journey-line {
+    position: absolute;
+    left: 32px; top: 32px; bottom: 32px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--purple), var(--green), var(--blue));
+    border-radius: 100px;
+  }
+  .journey-steps {
+    display: flex; flex-direction: column; gap: 0;
+    padding-left: 80px;
+  }
+  .journey-step {
+    position: relative;
+    padding: 32px 0 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .journey-step:last-child { border-bottom: none; }
+  .step-marker {
+    position: absolute;
+    left: -56px; top: 32px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 3px solid;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 900;
+  }
+  .step-phase {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 900;
+    margin-bottom: 12px; line-height: 1.1;
+  }
+  .step-desc {
+    font-size: 0.88rem; color: var(--text-muted);
+    line-height: 1.6; max-width: 600px;
+    margin-bottom: 20px;
+  }
+  .step-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .step-tag {
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 0.72rem; font-weight: 600;
+    border: 1px solid;
+  }
+  .emotion-tag {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #060606;
+    padding: 64px 48px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 900;
+    color: var(--green);
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  footer p { font-size: 0.8rem; color: var(--text-muted); }
+  .team-credits {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 24px; margin-top: 32px;
+  }
+  .team-member {
+    font-size: 0.78rem; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .team-member span { color: rgba(255,255,255,0.4); }
+
+  /* ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* DID YOU KNOW */
+  .dyk-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,230,0,0.1);
+    border: 1px solid rgba(255,230,0,0.25);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 0.8rem; color: var(--yellow);
+    font-weight: 500; margin-bottom: 32px;
+  }
+  .dyk-pill strong { font-weight: 800; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 100px; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9997;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 100px 24px 60px; }
+    .hero-stats { display: none; }
+    .marca-grid, .producto-layout, .necesidad-intro,
+    .crisis-cards, .foda-grid, .personas-grid,
+    .pos-layout { grid-template-columns: 1fr; }
+    .marca-hero-card { flex-direction: column; gap: 24px; padding: 32px; }
+    .hero-headline { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    Spotify × Bienestar
+  </div>
+  <ul class="nav-links">
+    <li><a href="#marca">Marca</a></li>
+    <li><a href="#producto">Producto</a></li>
+    <li><a href="#necesidad">Necesidad</a></li>
+    <li><a href="#situacion">Análisis</a></li>
+    <li><a href="#mercado">Mercado</a></li>
+    <li><a href="#posicionamiento">Competencia</a></li>
+    <li><a href="#journey">Journey</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-shape"></div>
+  <div class="hero-tag reveal">✦ Proyecto Final · Mercadotecnia · UDEM 2026</div>
+  <h1 class="hero-headline reveal reveal-delay-1">
+    <span class="line-green">Spotify</span><br>
+    <span style="color:#fff">sana</span><br>
+    <span class="line-pink">mentes.</span>
+  </h1>
+  <p class="hero-sub reveal reveal-delay-2">
+    Una estrategia de marketing para posicionar Spotify como el acompañante emocional de los adolescentes mexicanos que enfrentan ansiedad y depresión.
+  </p>
+  <div class="hero-cta reveal reveal-delay-3">
+    <a href="#marca" class="btn-primary">Explorar estrategia ↓</a>
+    <a href="#necesidad" class="btn-ghost">Ver la crisis silenciosa →</a>
+  </div>
+  <div class="hero-stats reveal reveal-delay-4">
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">600M+</div>
+      <div class="hero-stat-label">usuarios globales</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">1 de 5</div>
+      <div class="hero-stat-label">adolescentes MX con salud mental afectada</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">35%</div>
+      <div class="hero-stat-label">market share México</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: MARCA -->
+<section id="marca">
+  <div class="section-number reveal">01 / Marca</div>
+  <h2 class="section-title reveal reveal-delay-1">Quiénes<br>somos.</h2>
+  <p class="section-subtitle reveal reveal-delay-2">Spotify no es solo una app. Es cultura, emoción y comunidad — el espacio sonoro más visitado del planeta.</p>
+
+  <div class="marca-grid">
+    <div class="marca-hero-card reveal">
+      <div class="spotify-big-logo">
+        <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        Spotify
+      </div>
+      <div class="marca-hero-text">
+        <h3>Fundada en 2006 · Estocolmo, Suecia</h3>
+        <p>De startup escandinava a líder global del streaming de audio. Presente en <strong style="color:#fff">+180 países</strong>, con <strong style="color:#fff">240M de suscriptores Premium</strong>. En México: la app favorita de la Generación Z, integrada en su vida cotidiana como compañero emocional constante.</p>
+      </div>
+    </div>
+
+    <div class="pillar-card reveal reveal-delay-1">
+      <div class="pillar-icon">🎯</div>
+      <h4>Accesibilidad</h4>
+      <p>Modelo freemium que elimina barreras económicas. Cualquier adolescente puede acceder, sin importar su nivel socioeconómico.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-2">
+      <div class="pillar-icon">✨</div>
+      <h4>Descubrimiento</h4>
+      <p>Algoritmos que te presentan lo que aún no sabías que necesitabas escuchar. Más de 100M de canciones, podcasts y audiolibros.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-3">
+      <div class="pillar-icon">🧬</div>
+      <h4>Personalización</h4>
+      <p>Daylist, Wrapped, Daily Mixes — la plataforma que más profundamente entiende quién eres y cómo te sientes cada día.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: PRODUCTO -->
+<section id="producto">
+  <div class="section-number reveal">02 / Producto Insignia</div>
+  <h2 class="section-title reveal reveal-delay-1">Audio<br>que cura.</h2>
+  <p class="section-subtitle reveal reveal-delay-2">El ecosistema de bienestar emocional que ya existe en Spotify — formalizado, profundizado y puesto al centro.</p>
+
+  <div class="producto-layout">
+    <div class="producto-features">
+      <div class="dyk-pill reveal">
+        💡 <strong>¿Sabías que?</strong> Escuchar música según tu estado de ánimo reduce el cortisol de forma medible.
+      </div>
+      <div class="feature-row reveal reveal-delay-1">
+        <div class="feature-dot" style="background:rgba(123,47,255,0.2)">🎭</div>
+        <div>
+          <h4>Playlists por Estado de Ánimo</h4>
+          <p>Herramientas de regulación emocional respaldadas por psicología de la música. Seleccionadas para reducir ansiedad y mejorar el ánimo.</p>
+        </div>
+      </div>
+      <div class="feature-row reveal reveal-delay-2">
+        <div class="feature-dot" style="background:rgba(0,212,255,0.15)">🧠</div>
+        <div>
+          <h4>Podcasts de Bienestar Mental</h4>
+          <p>Contenido original de psicólogos y terapeutas mexicanos. En español, sin estigma, disponible gratis.</p>
+        </div>
+      </div>
+      <div class="feature-row reveal reveal-delay-3">
+        <div class="feature-dot" style="background:rgba(61,255,122,0.15)">⚡</div>
+        <div>
+          <h4>Daylist IA Emocional</h4>
+          <p>Playlist que se adapta en tiempo real a tu humor, hora y contexto. La IA que te entiende antes de que tú mismo lo hagas.</p>
+        </div>
+      </div>
+      <div class="feature-row reveal reveal-delay-4">
+        <div class="feature-dot" style="background:rgba(255,77,143,0.15)">🌙</div>
+        <div>
+          <h4>Audio Guiado & Meditaciones</h4>
+          <p>Meditaciones, respiración guiada y narrativas terapéuticas integradas con las playlists musicales existentes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="producto-visual reveal reveal-delay-2">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="mood-tag" style="background:rgba(123,47,255,0.3);color:#B97FFF;border:1px solid rgba(123,47,255,0.4)">
+            🌙 Estado: Ansioso
+          </div>
+          <div class="daylist-label">Tu Daylist</div>
+          <div class="daylist-sub">Actualizado para este momento</div>
+          <div class="now-playing">
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Reproduciendo ahora</div>
+            <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800">Calm Waters</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Ambient Therapy Mix</div>
+            <div class="track-bar"><div class="track-progress"></div></div>
+          </div>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08)">
+            <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">A continuación</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:0.8rem;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px">🎧 Meditación 5 min</div>
+              <div style="font-size:0.8rem;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px">🎵 Lo-fi Focus</div>
+              <div style="font-size:0.8rem;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px">🗣️ Podcast: Mente Joven</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: NECESIDAD -->
+<section id="necesidad">
+  <div class="section-number reveal">03 / La Necesidad</div>
+  <h2 class="section-title reveal reveal-delay-1">Una crisis<br><span style="color:var(--pink)">silenciosa.</span></h2>
+  <p class="section-subtitle reveal reveal-delay-2">México enfrenta una emergencia de salud mental adolescente que nadie está atendiendo bien. Spotify puede cambiar eso.</p>
+
+  <div class="necesidad-intro">
+    <div class="big-stat reveal">
+      <div class="big-number">1/5</div>
+      <div class="big-number-label">adolescentes mexicanos<br>experimenta un problema<br>significativo de salud mental</div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:12px">Fuente: ENSANUT</div>
+    </div>
+    <div class="necesidad-copy reveal reveal-delay-2">
+      <h3>El problema que nadie quiere nombrar.</h3>
+      <p>Ansiedad y depresión son las principales causas de discapacidad entre jóvenes de 10 a 19 años en México. La gran mayoría no recibe atención por barreras económicas, sociales y culturales.</p>
+      <p>Los adolescentes acuden a la música espontáneamente como mecanismo de afrontamiento. <strong style="color:#fff">Spotify ya está ahí</strong> — solo falta una estrategia.</p>
+      <div class="dyk-pill" style="margin-top:24px;margin-bottom:0">
+        💡 <strong>La ventaja:</strong> Sin citas. Sin costo extra. Sin estigma.
+      </div>
+    </div>
+  </div>
+
+  <div class="crisis-cards">
+    <div class="crisis-card pink reveal">
+      <div class="cc-stat">15–20%</div>
+      <h4>Síntomas post-pandemia</h4>
+      <p>De adolescentes mexicanos muestran signos significativos de ansiedad y depresión tras el COVID-19.</p>
+    </div>
+    <div class="crisis-card orange reveal reveal-delay-1">
+      <div class="cc-icon">🚫</div>
+      <h4>Sin acceso a atención</h4>
+      <p>La mayoría no recibe ayuda profesional. El estigma, los costos y la falta de servicios son barreras reales y actuales.</p>
+    </div>
+    <div class="crisis-card yellow reveal reveal-delay-2">
+      <div class="cc-icon">📱</div>
+      <h4>El primer contacto</h4>
+      <p>Spotify puede ser el primer contacto emocional <strong style="color:#fff">no clínico</strong> para millones de jóvenes — desde el dispositivo que ya tienen en la mano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: SITUACIÓN ACTUAL -->
+<section id="situacion">
+  <div class="section-number reveal">04 / Situación Actual</div>
+  <h2 class="section-title reveal reveal-delay-1">Dónde<br>estamos.</h2>
+  <p class="section-subtitle reveal reveal-delay-2">Spotify lidera el mercado en México y LATAM. Tiene todo para ser el agente de cambio — solo le falta la estrategia correcta.</p>
+
+  <div class="situacion-grid">
+    <!-- FODA -->
+    <div style="margin-bottom:48px">
+      <h3 class="obj-section-title reveal">Análisis FODA</h3>
+      <div class="foda-grid">
+        <div class="foda-card fortaleza reveal">
+          <div class="foda-label">Fortalezas</div>
+          <h4>Ventaja competitiva real</h4>
+          <ul class="foda-items">
+            <li>+35% market share en México</li>
+            <li>Alta penetración Gen Z</li>
+            <li>Daylist: IA emocional sin igual</li>
+            <li>Freemium elimina barreras económicas</li>
+          </ul>
+        </div>
+        <div class="foda-card oportunidad reveal reveal-delay-1">
+          <div class="foda-label">Oportunidades</div>
+          <h4>El mercado está vacío</h4>
+          <ul class="foda-items">
+            <li>Crisis de salud mental adolescente post-pandemia</li>
+            <li>Ninguna plataforma ocupa este espacio</li>
+            <li>Contexto regulatorio favorable</li>
+            <li>Demanda creciente de contenido wellness</li>
+          </ul>
+        </div>
+        <div class="foda-card debilidad reveal reveal-delay-2">
+          <div class="foda-label">Debilidades</div>
+          <h4>Barreras de percepción</h4>
+          <ul class="foda-items">
+            <li>Percibida como entretenimiento, no bienestar</li>
+            <li>Iniciativas wellness dispersas, sin estrategia</li>
+            <li>Algoritmo puede reforzar estados negativos</li>
+          </ul>
+        </div>
+        <div class="foda-card amenaza reveal reveal-delay-3">
+          <div class="foda-label">Amenazas</div>
+          <h4>Entorno competitivo</h4>
+          <ul class="foda-items">
+            <li>TikTok y YouTube roban atención</li>
+            <li>Calm y Headspace como competidores wellness</li>
+            <li>Regulación de datos de menores</li>
+            <li>Riesgo de percibirse como "greenwashing emocional"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJETIVOS -->
+    <div>
+      <h3 class="obj-section-title reveal">5 Objetivos de Marketing</h3>
+      <div class="obj-list">
+        <div class="obj-item reveal">
+          <div class="obj-num">01</div>
+          <div class="obj-content">
+            <h4>Posicionamiento de Bienestar Emocional</h4>
+            <p>Ser la primera opción cuando un adolescente mexicano sienta ansiedad o tristeza — antes que TikTok o YouTube.</p>
+          </div>
+          <div class="obj-badge" style="background:rgba(61,255,122,0.15);color:var(--green-neon);border:1px solid rgba(61,255,122,0.3)">Top Priority</div>
+        </div>
+        <div class="obj-item reveal reveal-delay-1">
+          <div class="obj-num">02</div>
+          <div class="obj-content">
+            <h4>Introducir Contenido Wellness en México</h4>
+            <p>Colaboraciones con psicólogos mexicanos. Contenido original en español, visible y accesible para el segmento correcto.</p>
+          </div>
+          <div class="obj-badge" style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.25)">Contenido</div>
+        </div>
+        <div class="obj-item reveal reveal-delay-2">
+          <div class="obj-num">03</div>
+          <div class="obj-content">
+            <h4>Promover Conversión Premium por Bienestar</h4>
+            <p>Agregar una tercera razón para pagar Premium: el acceso completo a la experiencia de bienestar sin interrupciones.</p>
+          </div>
+          <div class="obj-badge" style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.25)">Revenue</div>
+        </div>
+        <div class="obj-item reveal reveal-delay-3">
+          <div class="obj-num">04</div>
+          <div class="obj-content">
+            <h4>Alianzas Institucionales Estratégicas</h4>
+            <p>Mínimo 3 alianzas con instituciones de salud o educativas en México para ganar credibilidad clínica.</p>
+          </div>
+          <div class="obj-badge" style="background:rgba(123,47,255,0.1);color:#B97FFF;border:1px solid rgba(123,47,255,0.3)">Alianzas</div>
+        </div>
+        <div class="obj-item reveal reveal-delay-4">
+          <div class="obj-num">05</div>
+          <div class="obj-content">
+            <h4>Normalizar el Bienestar Emocional</h4>
+            <p>Usar la plataforma para romper el estigma — que pedir ayuda sea visto como valentía, no debilidad.</p>
+          </div>
+          <div class="obj-badge" style="background:rgba(255,77,143,0.1);color:var(--pink);border:1px solid rgba(255,77,143,0.25)">Impacto Social</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: MERCADO META -->
+<section id="mercado">
+  <div class="section-number reveal">05 / Mercado Meta</div>
+  <h2 class="section-title reveal reveal-delay-1">¿A quién<br>le hablamos?</h2>
+  <p class="section-subtitle reveal reveal-delay-2">Cuatro perfiles. Un segmento principal. El adolescente mexicano que busca bienestar accesible, sin pagar.</p>
+
+  <!-- Mapa de Perfiles -->
+  <div class="perfiles-map reveal">
+    <h3 class="obj-section-title" style="margin-bottom:20px">Mapa de Perfiles</h3>
+    <div class="map-container" style="max-width:700px;height:500px">
+      <div class="axis-x"></div>
+      <div class="axis-y"></div>
+      <div class="axis-label top">ALTO interés en bienestar</div>
+      <div class="axis-label bottom">BAJO interés en bienestar</div>
+      <div class="axis-label left">No paga Premium</div>
+      <div class="axis-label right">Sí paga Premium</div>
+
+      <!-- Buscador Bienestar Gratuito - TOP LEFT -->
+      <div class="profile-bubble primary" style="left:28%;top:25%">
+        <div class="primary-tag">★ Segmento Principal</div>
+        <h5 style="color:var(--green-neon)">Buscador de<br>Bienestar Gratuito</h5>
+        <p>Alto interés emocional · No paga</p>
+      </div>
+
+      <!-- Buscador Bienestar Premium - TOP RIGHT -->
+      <div class="profile-bubble secondary" style="left:73%;top:25%">
+        <h5>Buscador de<br>Bienestar Premium</h5>
+        <p>Alto interés emocional · Paga Premium</p>
+      </div>
+
+      <!-- Usuario Práctico Premium - BOTTOM RIGHT -->
+      <div class="profile-bubble secondary" style="left:73%;top:75%">
+        <h5>Usuario Práctico<br>Premium</h5>
+        <p>Sin interés wellness · Sin anuncios</p>
+      </div>
+
+      <!-- Usuario Gratuito Entretenimiento - BOTTOM LEFT -->
+      <div class="profile-bubble secondary" style="left:28%;top:75%">
+        <h5>Usuario Gratuito de<br>Entretenimiento</h5>
+        <p>Bajo interés · Solo música popular</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personas -->
+  <h3 class="obj-section-title reveal" style="margin-top:64px">Perfiles de Usuario</h3>
+  <div class="personas-grid">
+    <div class="persona-card featured reveal">
+      <div class="persona-avatar">🧑‍🎧</div>
+      <h4>Mateo</h4>
+      <div class="persona-age">17 años · Monterrey · Preparatoria</div>
+      <p class="persona-desc">Usa Spotify diario según su ánimo. En momentos de estrés busca playlists o podcasts para relajarse. Usa redes y prefiere lo gratuito.</p>
+      <span class="persona-tag" style="background:rgba(61,255,122,0.15);color:var(--green-neon);border:1px solid rgba(61,255,122,0.3)">Cliente Principal</span>
+    </div>
+    <div class="persona-card reveal reveal-delay-1">
+      <div class="persona-avatar">👩‍🎵</div>
+      <h4>Jimena</h4>
+      <div class="persona-age">19 años · Monterrey · Universidad</div>
+      <p class="persona-desc">Le encantan la música y podcasts emocionales. Cuando siente ansiedad pone sus favoritos. No tiene problema pagando Premium.</p>
+      <span class="persona-tag" style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.2)">Potencial Premium</span>
+    </div>
+    <div class="persona-card reveal reveal-delay-2">
+      <div class="persona-avatar">👨‍💼</div>
+      <h4>Arturo</h4>
+      <div class="persona-age">26 años · Torreón · Profesional</div>
+      <p class="persona-desc">Usa Spotify solo en días pesados para relajarse. No busca contenido de bienestar pero le gusta la música que lo pone de buen humor. Paga Premium.</p>
+      <span class="persona-tag" style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.2)">Usuario Práctico</span>
+    </div>
+    <div class="persona-card reveal reveal-delay-3">
+      <div class="persona-avatar">👧</div>
+      <h4>Valentina</h4>
+      <div class="persona-age">14 años · Monterrey · Secundaria</div>
+      <p class="persona-desc">Usa Spotify para entretenerse y escuchar lo que está de moda. No busca contenido emocional. Sus papás no ven valor en pagar.</p>
+      <span class="persona-tag" style="background:rgba(255,230,0,0.08);color:var(--yellow);border:1px solid rgba(255,230,0,0.2)">Entretenimiento</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: POSICIONAMIENTO -->
+<section id="posicionamiento">
+  <div class="section-number reveal">06 / Posicionamiento</div>
+  <h2 class="section-title reveal reveal-delay-1">Sin rival<br>real.</h2>
+  <p class="section-subtitle reveal reveal-delay-2">Spotify domina en personalización Y diversidad de contenido. Sus competidores no pueden alcanzarlos en ambas dimensiones.</p>
+
+  <div class="pos-layout">
+    <!-- Mapa de posicionamiento -->
+    <div class="reveal">
+      <div class="pos-map">
+        <div class="pos-axis-x"></div>
+        <div class="pos-axis-y"></div>
+        <div class="pos-label top">Alta Diversidad de Contenido</div>
+        <div class="pos-label bottom">Baja Diversidad</div>
+        <div class="pos-label left-l">Baja Personalización</div>
+        <div class="pos-label right-l">Alta Personalización</div>
+
+        <!-- Spotify: top right -->
+        <div class="brand-dot" style="left:80%;top:18%">
+          <div class="dot-inner" style="width:56px;height:56px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#000">SPOT</div>
+          <div class="dot-label" style="color:var(--green-neon)">Spotify ⭐</div>
+        </div>
+        <!-- Apple Music: top center-right -->
+        <div class="brand-dot" style="left:65%;top:22%">
+          <div class="dot-inner" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">🍎</div>
+          <div class="dot-label" style="color:var(--text-muted)">Apple Music</div>
+        </div>
+        <!-- YouTube Music: top left -->
+        <div class="brand-dot" style="left:30%;top:28%">
+          <div class="dot-inner" style="width:36px;height:36px;background:rgba(255,0,0,0.2);border:2px solid rgba(255,80,80,0.4);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">▶</div>
+          <div class="dot-label" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
+        </div>
+        <!-- Amazon Music: bottom left -->
+        <div class="brand-dot" style="left:28%;top:70%">
+          <div class="dot-inner" style="width:32px;height:32px;background:rgba(255,168,0,0.15);border:2px solid rgba(255,168,0,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">📦</div>
+          <div class="dot-label" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:16px;text-align:center">
+        Eje X: Nivel de personalización · Eje Y: Diversidad de contenido y ecosistema
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="reveal reveal-delay-2">
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:32px">Precios en México (mensual)</h3>
+      <div class="comp-table">
+        <div class="comp-row">
+          <div class="comp-brand" style="color:var(--green)">Spotify</div>
+          <div class="comp-bar-wrap">
+            <div class="comp-metric">Estudiante → Familiar</div>
+            <div class="comp-bar"><div class="comp-bar-fill" style="width:100%;background:var(--green)"></div></div>
+          </div>
+          <div class="comp-price" style="color:var(--green)">$74–$239</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand" style="color:rgba(255,255,255,0.7)">Apple Music</div>
+          <div class="comp-bar-wrap">
+            <div class="comp-metric">Estudiante → Familiar</div>
+            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,255,255,0.5)"></div></div>
+          </div>
+          <div class="comp-price" style="color:rgba(255,255,255,0.6)">$69–$199</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
+          <div class="comp-bar-wrap">
+            <div class="comp-metric">Individual → Familiar</div>
+            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,80,80,0.5)"></div></div>
+          </div>
+          <div class="comp-price" style="color:rgba(255,80,80,0.7)">$69–$199</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
+          <div class="comp-bar-wrap">
+            <div class="comp-metric">Individual → Familiar</div>
+            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,168,0,0.4)"></div></div>
+          </div>
+          <div class="comp-price" style="color:rgba(255,168,0,0.6)">$69–$199</div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px;padding:28px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:20px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:10px">Ventaja Competitiva</div>
+        <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6">Spotify es el más caro — y el más usado. Su precio superior está respaldado por la mayor amplitud de planes, la personalización más profunda y el único ecosistema que integra música, podcasts y audiolibros.</p>
+      </div>
+
+      <div style="margin-top:20px;padding:28px;background:rgba(123,47,255,0.08);border:1px solid rgba(123,47,255,0.2);border-radius:20px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#B97FFF;margin-bottom:10px">31% del mercado global</div>
+        <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6">La plataforma de streaming de audio más consumida del mundo. Domina especialmente entre jóvenes de 13 a 24 años en México.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: CUSTOMER JOURNEY -->
+<section id="journey">
+  <div class="section-number reveal">07 / Customer Journey</div>
+  <h2 class="section-title reveal reveal-delay-1">El camino<br><span style="color:var(--blue)">al alivio.</span></h2>
+  <p class="section-subtitle reveal reveal-delay-2">De la crisis al hábito. Así navega un adolescente mexicano desde el problema hasta encontrar su espacio seguro en Spotify.</p>
+
+  <div class="journey-flow">
+    <div class="journey-line"></div>
+    <div class="journey-steps">
+
+      <div class="journey-step reveal">
+        <div class="step-marker" style="border-color:var(--pink);color:var(--pink)">I</div>
+        <div class="step-phase" style="color:var(--pink)">Reconocimiento del problema</div>
+        <div class="step-title">Algo no está bien.</div>
+        <div class="step-desc">El adolescente enfrenta estrés académico, ansiedad social o soledad. Las redes sociales empeoran su estado emocional. Siente la necesidad urgente de "escapar" del ruido.</div>
+        <div class="step-tags">
+          <span class="step-tag" style="border-color:rgba(255,77,143,0.3);color:var(--pink)">📱 Instagram / TikTok</span>
+          <span class="emotion-tag">😰 Ansiedad · Agobio</span>
+        </div>
+      </div>
+
+      <div class="journey-step reveal">
+        <div class="step-marker" style="border-color:var(--orange);color:var(--orange)">II</div>
+        <div class="step-phase" style="color:var(--orange)">Búsqueda de información</div>
+        <div class="step-title">¿Existe algo que me ayude?</div>
+        <div class="step-desc">Busca en Google, pregunta amigos, explora TikTok. Investiga si existe alguna herramienta accesible, no estigmatizante, que lo ayude a regular sus emociones desde casa.</div>
+        <div class="step-tags">
+          <span class="step-tag" style="border-color:rgba(255,107,53,0.3);color:var(--orange)">🔍 Google</span>
+          <span class="step-tag" style="border-color:rgba(255,107,53,0.3);color:var(--orange)">💬 Amigos</span>
+          <span class="emotion-tag">🤔 Incertidumbre · Esperanza</span>
+        </div>
+      </div>
+
+      <div class="journey-step reveal">
+        <div class="step-marker" style="border-color:var(--yellow);color:var(--yellow)">III</div>
+        <div class="step-phase" style="color:var(--yellow)">Evaluación de alternativas</div>
+        <div class="step-title">Spotify vs. el resto.</div>
+        <div class="step-desc">Compara: YouTube tiene demasiados anuncios. TikTok es muy disperso. Calm y Headspace son de pago obligatorio. Spotify tiene la IA que ya lo conoce — y es gratis.</div>
+        <div class="step-tags">
+          <span class="step-tag" style="border-color:rgba(255,230,0,0.3);color:var(--yellow)">⚖️ Comparación de apps</span>
+          <span class="step-tag" style="border-color:rgba(255,230,0,0.3);color:var(--yellow)">✅ Spotify gana</span>
+          <span class="emotion-tag">💡 Esperanza · Curiosidad</span>
+        </div>
+      </div>
+
+      <div class="journey-step reveal">
+        <div class="step-marker" style="border-color:var(--green-neon);color:var(--green-neon)">IV</div>
+        <div class="step-phase" style="color:var(--green-neon)">Decisión</div>
+        <div class="step-title">Primer escucha. Primer alivio.</div>
+        <div class="step-desc">Abre Spotify. Entra a la sección de Salud Mental. Escucha el primer podcast o meditación. En Premium, sin anuncios que rompan su paz. El momento de conversión más importante.</div>
+        <div class="step-tags">
+          <span class="step-tag" style="border-color:rgba(61,255,122,0.3);color:var(--green-neon)">🧘 Sección Salud Mental</span>
+          <span class="step-tag" style="border-color:rgba(61,255,122,0.3);color:var(--green-neon)">💳 Spotify Premium</span>
+          <span class="emotion-tag">😮‍💨 Alivio · Pertenencia</span>
+        </div>
+      </div>
+
+      <div class="journey-step reveal">
+        <div class="step-marker" style="border-color:var(--blue);color:var(--blue)">V</div>
+        <div class="step-phase" style="color:var(--blue)">Post-compra</div>
+        <div class="step-title">Se convierte en hábito.</div>
+        <div class="step-desc">La app forma parte de su rutina de salud mental diaria. Guarda playlists, sigue podcasts de bienestar. El "Wrapped de Bienestar" lo hace sentir comprendido — y lo comparte.</div>
+        <div class="step-tags">
+          <span class="step-tag" style="border-color:rgba(0,212,255,0.3);color:var(--blue)">💚 Playlists guardadas</span>
+          <span class="step-tag" style="border-color:rgba(0,212,255,0.3);color:var(--blue)">🎁 Wrapped de Bienestar</span>
+          <span class="emotion-tag">🥰 Comprendido · Satisfecho</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Puntos de venta -->
+  <div style="max-width:1100px;margin-top:80px">
+    <h3 class="obj-section-title reveal">Puntos de Venta</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px">
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:12px">📱</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;margin-bottom:6px">Digitales directos</h4>
+        <p style="font-size:0.8rem;color:var(--text-muted)">App Store, Google Play, Spotify.com — el modelo B2C principal</p>
+      </div>
+      <div class="card reveal reveal-delay-1" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:12px">🏪</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;margin-bottom:6px">Gift Cards físicas</h4>
+        <p style="font-size:0.8rem;color:var(--text-muted)">OXXO, 7-Eleven, Walmart — acceso para adolescentes sin cuenta bancaria</p>
+      </div>
+      <div class="card reveal reveal-delay-2" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:12px">📡</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;margin-bottom:6px">Alianzas Telco</h4>
+        <p style="font-size:0.8rem;color:var(--text-muted)">Telcel y Movistar incluyen Spotify en sus planes — puerta de entrada masiva</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    Spotify × Bienestar Emocional
+  </div>
+  <p style="margin-bottom:8px">Proyecto Final | Análisis de Marca y Producto · Mercadotecnia · UDEM 2026</p>
+  <p style="font-size:0.7rem;color:rgba(255,255,255,0.25)">"Nosotros, damos nuestra palabra de que hemos realizado esta actividad con integridad académica"</p>
+  <div class="team-credits">
+    <div class="team-member">Karen Cid Díaz <span>#678176</span></div>
+    <div class="team-member">Eugenio Iza Matar <span>#680605</span></div>
+    <div class="team-member">Ian Andre Flores García <span>#641684</span></div>
+    <div class="team-member">Melisa Lozano González <span>#681323</span></div>
+    <div class="team-member">Briana Dae Rendon Torrecillas <span>#680258</span></div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursorTrail');
+let mx = 0, my = 0, tx = 0, ty = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 6 + 'px';
+  cursor.style.top = my - 6 + 'px';
+});
+
+function animTrail() {
+  tx += (mx - tx) * 0.12;
+  ty += (my - ty) * 0.12;
+  trail.style.left = tx - 18 + 'px';
+  trail.style.top = ty - 18 + 'px';
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+
+document.querySelectorAll('a,button,.card,.pillar-card,.feature-row,.obj-item,.persona-card,.foda-card,.journey-step,.profile-bubble,.brand-dot').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
+  el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+});
+
+// PROGRESS BAR
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  bar.style.width = pct + '%';
+});
+
+// REVEAL ON SCROLL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ANIMATE BARS ON REVEAL
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.comp-bar-fill').forEach(b => {
+        const w = b.style.width;
+        b.style.width = '0';
+        setTimeout(() => b.style.width = w, 200);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+const posSection = document.getElementById('posicionamiento');
+if (posSection) barObserver.observe(posSection);
+
+// SMOOTH SECTION TRANSITIONS (parallax-lite)
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  document.querySelectorAll('.hero-bg-shape').forEach(shape => {
+    shape.style.transform = `translateY(${scrollY * 0.3}px)`;
+  });
+});
+
+// ACTIVE NAV
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 200) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--green-neon)'
+      : 'rgba(255,255,255,0.55)';
+  });
+});
+
+// DAYLIST ANIMATION
+const trackProgress = document.querySelector('.track-progress');
+if (trackProgress) {
+  setInterval(() => {
+    let w = parseFloat(trackProgress.style.width) || 62;
+    w = (w + 0.5) > 100 ? 0 : w + 0.5;
+    trackProgress.style.width = w + '%';
+  }, 500);
+}
+</script>
+</body>
+</html>
