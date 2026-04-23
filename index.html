@@ -252,7 +252,7 @@
   #marca { background: #0D0D0D; }
   .marca-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 24px;
     max-width: 1200px;
     margin: 0 auto;
@@ -320,8 +320,8 @@
     grid-template-columns: 1.2fr 1fr;
     gap: 40px;
     max-width: 1200px;
-    margin: 0 auto;
     align-items: start;
+    margin: 0 auto;
   }
   .producto-features {
     display: flex; flex-direction: column; gap: 16px;
@@ -465,7 +465,7 @@
   /* FODA */
   .foda-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 20px; margin-bottom: 80px;
+    gap: 20px; max-width: 1200px; margin: 0 auto 80px;
   }
   .foda-card {
     border-radius: 24px; padding: 36px;
@@ -517,10 +517,14 @@
     font-family: 'Syne', sans-serif;
     font-size: 2rem; font-weight: 900;
     margin-bottom: 32px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .obj-list {
     display: flex; flex-direction: column; gap: 16px;
     max-width: 900px;
+    margin: 0 auto;
   }
   .obj-item {
     display: flex; align-items: flex-start; gap: 24px;
@@ -565,6 +569,7 @@
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 24px;
     overflow: hidden;
+    margin: 0 auto;
   }
   /* Axes */
   .axis-x, .axis-y {
@@ -749,8 +754,8 @@
   #journey { background: #0A0A0A; }
   .journey-flow {
     max-width: 1100px;
-    margin: 0 auto;
     position: relative;
+    margin: 0 auto;
   }
   .journey-line {
     position: absolute;
@@ -878,8 +883,287 @@
     opacity: 0.4;
   }
 
-  @media (max-width: 1100px) {
-    .personas-grid { grid-template-columns: repeat(2, 1fr); }
+  /* ===== QUICK FACTS ===== */
+  .qf-grid {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    max-width: 1200px; margin: 28px auto;
+  }
+  .quick-fact {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 12px 18px;
+    cursor: default;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .quick-fact:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.22);
+    transform: translateY(-2px);
+  }
+  .quick-fact .qf-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .quick-fact .qf-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 900;
+  }
+  .quick-fact .qf-label {
+    font-size: 0.72rem; color: var(--text-muted); line-height: 1.3;
+  }
+  .quick-fact .qf-source {
+    font-size: 0.6rem; color: rgba(255,255,255,0.25);
+    margin-top: 2px;
+  }
+
+  /* ===== EXPANDABLE BLOCKS ===== */
+  .expand-block {
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.09);
+    background: var(--card-bg);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .expand-block:hover { border-color: rgba(255,255,255,0.2); }
+  .expand-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+    gap: 16px;
+  }
+  .expand-header-left {
+    display: flex; align-items: center; gap: 14px; flex: 1;
+  }
+  .expand-icon-box {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .expand-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800;
+  }
+  .expand-summary {
+    font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;
+    margin-top: 2px;
+  }
+  .expand-chevron {
+    font-size: 1.1rem; color: var(--text-muted);
+    transition: transform 0.3s; flex-shrink: 0;
+  }
+  .expand-block.open .expand-chevron { transform: rotate(180deg); }
+  .expand-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1),
+                padding 0.3s ease;
+    padding: 0 24px;
+  }
+  .expand-block.open .expand-body {
+    max-height: 800px;
+    padding: 0 24px 24px;
+  }
+  .expand-body-inner {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 18px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+  }
+  .expand-body-inner p { margin-bottom: 10px; }
+  .expand-body-inner p:last-child { margin-bottom: 0; }
+  .expand-body-inner ul {
+    list-style: none; display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 10px;
+  }
+  .expand-body-inner ul li {
+    padding-left: 16px; position: relative;
+  }
+  .expand-body-inner ul li::before {
+    content: '—'; position: absolute; left: 0;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ===== INFO MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.active {
+    opacity: 1; pointer-events: all;
+  }
+  .modal-box {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 28px;
+    padding: 40px;
+    max-width: 640px; width: 100%;
+    max-height: 80vh; overflow-y: auto;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+  }
+  .modal-overlay.active .modal-box {
+    transform: translateY(0) scale(1);
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: none; color: #fff; font-size: 1.1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.18); }
+  .modal-tag {
+    font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    margin-bottom: 12px; display: inline-block;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 900;
+    line-height: 1.1; margin-bottom: 20px;
+  }
+  .modal-body {
+    font-size: 0.88rem; color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+  }
+  .modal-body p { margin-bottom: 12px; }
+  .modal-body strong { color: #fff; }
+  .modal-body ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .modal-body ul li { padding-left: 18px; position: relative; }
+  .modal-body ul li::before { content: '→'; position: absolute; left: 0; color: rgba(255,255,255,0.3); }
+  .modal-facts {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .modal-fact-pill {
+    padding: 6px 14px; border-radius: 100px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.75rem;
+  }
+
+  /* clickable trigger hint */
+  .info-trigger {
+    display: inline-flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(255,255,255,0.25);
+    transition: border-color 0.2s, color 0.2s;
+    padding-bottom: 1px;
+  }
+  .info-trigger:hover { border-color: var(--green-neon); color: var(--green-neon); }
+  .info-trigger .it-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green-neon); flex-shrink: 0;
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+  }
+
+  /* ===== PROMO FLIP CARDS ===== */
+  .promo-flip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .promo-flip-card {
+    aspect-ratio: 3 / 4;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+  .promo-card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .promo-flip-card.flipped .promo-card-inner {
+    transform: rotateY(180deg);
+  }
+  .promo-card-front,
+  .promo-card-back {
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .promo-card-front {
+    background: rgba(255,77,143,0.07);
+    border: 1px solid rgba(255,77,143,0.2);
+    padding: 28px;
+    display: flex; flex-direction: column;
+  }
+  .promo-card-back {
+    transform: rotateY(180deg);
+    background: #0a0a0a;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .promo-card-back img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .promo-strat-num {
+    display: inline-block;
+    background: var(--pink);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem; font-weight: 900;
+    padding: 3px 12px; border-radius: 100px;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+  .promo-strat-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .promo-strat-desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .promo-phases {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .promo-phase-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+  .phase-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .promo-flip-hint {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--pink);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: auto;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+  }
+  .promo-flip-card:hover .promo-flip-hint { opacity: 1; }
+  .promo-flip-card:hover .promo-card-front {
+    border-color: rgba(255,77,143,0.45);
   }
 
   @media (max-width: 900px) {
@@ -892,6 +1176,8 @@
     .pos-layout { grid-template-columns: 1fr; }
     .marca-hero-card { flex-direction: column; gap: 24px; padding: 32px; }
     .hero-headline { font-size: 3.5rem; }
+    .promo-flip-grid { grid-template-columns: 1fr; }
+    .promo-flip-card { max-width: 340px; margin: 0 auto; width: 100%; }
   }
 </style>
 </head>
@@ -900,6 +1186,17 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-trail" id="cursorTrail"></div>
 <div id="progress-bar"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-tag" id="modalTag"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-facts" id="modalFacts"></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -914,7 +1211,10 @@
     <li><a href="#situacion">Análisis</a></li>
     <li><a href="#mercado">Mercado</a></li>
     <li><a href="#posicionamiento">Competencia</a></li>
+    <li><a href="#precios">Precios</a></li>
     <li><a href="#journey">Journey</a></li>
+    <li><a href="#fuerzas">Fuerzas</a></li>
+    <li><a href="#estrategia">Estrategia</a></li>
   </ul>
 </nav>
 
@@ -940,8 +1240,8 @@
       <div class="hero-stat-label">usuarios globales</div>
     </div>
     <div class="hero-stat-item">
-      <div class="hero-stat-number">1 de 5</div>
-      <div class="hero-stat-label">adolescentes MX con salud mental afectada</div>
+      <div class="hero-stat-number">12%</div>
+      <div class="hero-stat-label">adolescentes MX con<br>problemas de salud mental</div>
     </div>
     <div class="hero-stat-item">
       <div class="hero-stat-number">35%</div>
@@ -955,6 +1255,37 @@
   <div class="section-number reveal">01 / Marca</div>
   <h2 class="section-title reveal reveal-delay-1">Quiénes<br>somos.</h2>
   <p class="section-subtitle reveal reveal-delay-2">Spotify no es solo una app. Es cultura, emoción y comunidad — el espacio sonoro más visitado del planeta.</p>
+
+  <!-- QUICK FACTS MARCA -->
+  <div class="qf-grid reveal">
+    <div class="quick-fact" onclick="openModal('marca-fundacion')">
+      <div class="qf-icon">📅</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">2006</div><div class="qf-label">Año de fundación<br>Estocolmo, Suecia</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('marca-usuarios')">
+      <div class="qf-icon">🌍</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">600M+</div><div class="qf-label">Usuarios activos<br>mensuales</div><div class="qf-source">Spotify, 2024</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('marca-premium')">
+      <div class="qf-icon">💚</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">240M</div><div class="qf-label">Suscriptores<br>Premium</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('marca-paises')">
+      <div class="qf-icon">🗺️</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">180+</div><div class="qf-label">Países con<br>presencia activa</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('marca-mercado')">
+      <div class="qf-icon">📊</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">31%</div><div class="qf-label">Market share<br>global streaming</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('marca-mexico')">
+      <div class="qf-icon">🇲🇽</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">35%</div><div class="qf-label">Participación<br>mercado México</div></div>
+    </div>
+  </div>
+  <p style="font-size:0.7rem;color:rgba(255,255,255,0.25);margin:-12px 0 32px;display:flex;align-items:center;gap:6px" class="reveal">
+    <span class="it-dot"></span> Haz clic en cualquier dato para ver más información
+  </p>
 
   <div class="marca-grid">
     <div class="marca-hero-card reveal">
@@ -1061,15 +1392,47 @@
   <h2 class="section-title reveal reveal-delay-1">Una crisis<br><span style="color:var(--pink)">silenciosa.</span></h2>
   <p class="section-subtitle reveal reveal-delay-2">México enfrenta una emergencia de salud mental adolescente que nadie está atendiendo bien. Spotify puede cambiar eso.</p>
 
+  <!-- QUICK FACTS NECESIDAD -->
+  <div class="qf-grid reveal">
+    <div class="quick-fact" onclick="openModal('nec-encodat')">
+      <div class="qf-icon">📋</div>
+      <div><div class="qf-val" style="color:var(--pink)">1.3M</div><div class="qf-label">Adolescentes con malestar<br>psicológico activo</div><div class="qf-source">ENCODAT 2025</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('nec-redes')">
+      <div class="qf-icon">📱</div>
+      <div><div class="qf-val" style="color:var(--pink)">×2</div><div class="qf-label">Riesgo mayor con<br>>3 hrs/día en redes</div><div class="qf-source">Excélsior / Especialistas, 2025</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('nec-genz')">
+      <div class="qf-icon">😟</div>
+      <div><div class="qf-val" style="color:var(--pink)">70%</div><div class="qf-label">Gen Z mexicana<br>se siente abrumada</div><div class="qf-source">UNICEF México</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('nec-unicef')">
+      <div class="qf-icon">🧒</div>
+      <div><div class="qf-val" style="color:var(--pink)">12%</div><div class="qf-label">Jóvenes 10-19 años<br>con prob. salud mental</div><div class="qf-source">UNICEF 2019 / UNAM 2025</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('nec-suicidio')">
+      <div class="qf-icon">⚠️</div>
+      <div><div class="qf-val" style="color:var(--pink)">+114%</div><div class="qf-label">Tasa de suicidio<br>jóvenes 15-19 años</div><div class="qf-source">INEGI 2017–2022</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('nec-redes-uso')">
+      <div class="qf-icon">⏱️</div>
+      <div><div class="qf-val" style="color:var(--pink)">37%</div><div class="qf-label">Jóvenes MX pasan<br>>5 hrs/día en redes</div><div class="qf-source">Top Doctors MX, 2025</div></div>
+    </div>
+  </div>
+  <p style="font-size:0.7rem;color:rgba(255,255,255,0.25);margin:-12px 0 40px;display:flex;align-items:center;gap:6px" class="reveal">
+    <span class="it-dot"></span> Haz clic en cualquier cifra para ver la fuente completa
+  </p>
+
+  <!-- Contexto narrativo -->
   <div class="necesidad-intro">
     <div class="big-stat reveal">
-      <div class="big-number">1/5</div>
-      <div class="big-number-label">adolescentes mexicanos<br>experimenta un problema<br>significativo de salud mental</div>
-      <div style="font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:12px">Fuente: ENSANUT</div>
+      <div class="big-number" style="font-size:5rem">15%</div>
+      <div class="big-number-label">de menores de 18 años<br>en México presenta<br>trastornos mentales</div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:12px">Fuente: INSP — Instituto Nacional de Salud Pública</div>
     </div>
     <div class="necesidad-copy reveal reveal-delay-2">
-      <h3>El problema que nadie quiere nombrar.</h3>
-      <p>Ansiedad y depresión son las principales causas de discapacidad entre jóvenes de 10 a 19 años en México. La gran mayoría no recibe atención por barreras económicas, sociales y culturales.</p>
+      <h3>El problema tiene raíces<br>en el estilo de vida actual.</h3>
+      <p>Ansiedad y depresión en adolescentes mexicanos tienen raíces en la hiperconectividad digital, la presión académica, la comparación social constante y el estigma cultural que impide pedir ayuda.</p>
       <p>Los adolescentes acuden a la música espontáneamente como mecanismo de afrontamiento. <strong style="color:#fff">Spotify ya está ahí</strong> — solo falta una estrategia.</p>
       <div class="dyk-pill" style="margin-top:24px;margin-bottom:0">
         💡 <strong>La ventaja:</strong> Sin citas. Sin costo extra. Sin estigma.
@@ -1077,21 +1440,30 @@
     </div>
   </div>
 
-  <div class="crisis-cards">
-    <div class="crisis-card pink reveal">
-      <div class="cc-stat">15–20%</div>
-      <h4>Síntomas post-pandemia</h4>
-      <p>De adolescentes mexicanos muestran signos significativos de ansiedad y depresión tras el COVID-19.</p>
-    </div>
-    <div class="crisis-card orange reveal reveal-delay-1">
-      <div class="cc-icon">🚫</div>
-      <h4>Sin acceso a atención</h4>
-      <p>La mayoría no recibe ayuda profesional. El estigma, los costos y la falta de servicios son barreras reales y actuales.</p>
-    </div>
-    <div class="crisis-card yellow reveal reveal-delay-2">
-      <div class="cc-icon">📱</div>
-      <h4>El primer contacto</h4>
-      <p>Spotify puede ser el primer contacto emocional <strong style="color:#fff">no clínico</strong> para millones de jóvenes — desde el dispositivo que ya tienen en la mano.</p>
+  <!-- Causas reales -->
+  <div style="max-width:1200px;margin:40px auto 0;padding:36px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px" class="reveal">
+    <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink);margin-bottom:20px">⚠️ Las causas del estilo de vida actual</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:2rem;margin-bottom:8px">📱</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;margin-bottom:4px">Hiperconectividad</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">37% de jóvenes MX pasan +5 hrs/día en redes sociales</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:2rem;margin-bottom:8px">👁️</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;margin-bottom:4px">Comparación social</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">Estándares irreales de belleza y éxito generan insatisfacción constante</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:2rem;margin-bottom:8px">🎓</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;margin-bottom:4px">Presión académica</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">El rendimiento escolar como fuente constante de estrés y ansiedad</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:2rem;margin-bottom:8px">🔕</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;margin-bottom:4px">Estigma social</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">Hablar de salud mental sigue siendo tabú — pocos buscan ayuda profesional</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1103,96 +1475,226 @@
   <p class="section-subtitle reveal reveal-delay-2">Spotify lidera el mercado en México y LATAM. Tiene todo para ser el agente de cambio — solo le falta la estrategia correcta.</p>
 
   <div class="situacion-grid">
-    <!-- FODA -->
+    <!-- FODA - EXPANDABLE -->
     <div style="margin-bottom:48px">
-      <h3 class="obj-section-title reveal">Análisis FODA</h3>
-      <div class="foda-grid">
-        <div class="foda-card fortaleza reveal">
-          <div class="foda-label">Fortalezas</div>
-          <h4>Ventaja competitiva real</h4>
-          <ul class="foda-items">
-            <li>+35% market share en México</li>
-            <li>Alta penetración Gen Z</li>
-            <li>Daylist: IA emocional sin igual</li>
-            <li>Freemium elimina barreras económicas</li>
-          </ul>
+      <h3 class="obj-section-title reveal">Análisis FODA <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;letter-spacing:0.08em">— clic para expandir cada cuadrante</span></h3>
+
+      <div class="expand-block reveal" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <div class="expand-header-left">
+            <div class="expand-icon-box" style="background:rgba(61,255,122,0.12)">💪</div>
+            <div>
+              <div class="expand-title" style="color:var(--green-neon)">Fortalezas</div>
+              <div class="expand-summary">Ventaja competitiva real — liderazgo, IA emocional y freemium</div>
+            </div>
+          </div>
+          <div class="expand-chevron">▾</div>
         </div>
-        <div class="foda-card oportunidad reveal reveal-delay-1">
-          <div class="foda-label">Oportunidades</div>
-          <h4>El mercado está vacío</h4>
-          <ul class="foda-items">
-            <li>Crisis de salud mental adolescente post-pandemia</li>
-            <li>Ninguna plataforma ocupa este espacio</li>
-            <li>Contexto regulatorio favorable</li>
-            <li>Demanda creciente de contenido wellness</li>
-          </ul>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <ul>
+              <li><strong>+35% market share en México</strong> — Alta penetración entre la Generación Z, ya presente en la mayoría de los teléfonos de adolescentes. Reduce la fricción para nuevas iniciativas de bienestar.</li>
+              <li><strong>Daylist y IA emocional</strong> — Tecnología de personalización que ajusta la experiencia musical a las emociones del usuario en tiempo real. Ningún competidor ofrece esta capacidad con tal profundidad.</li>
+              <li><strong>Modelo freemium</strong> — Permite a los adolescentes acceder a contenido de bienestar sin que sus padres paguen, eliminando barreras en todos los niveles socioeconómicos.</li>
+              <li><strong>Infraestructura existente de bienestar</strong> — Podcasts de salud mental, playlists emocionales y alianza previa con UNICEF México ya operativos en la plataforma.</li>
+            </ul>
+          </div>
         </div>
-        <div class="foda-card debilidad reveal reveal-delay-2">
-          <div class="foda-label">Debilidades</div>
-          <h4>Barreras de percepción</h4>
-          <ul class="foda-items">
-            <li>Percibida como entretenimiento, no bienestar</li>
-            <li>Iniciativas wellness dispersas, sin estrategia</li>
-            <li>Algoritmo puede reforzar estados negativos</li>
-          </ul>
+      </div>
+
+      <div class="expand-block reveal" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <div class="expand-header-left">
+            <div class="expand-icon-box" style="background:rgba(0,212,255,0.12)">🚀</div>
+            <div>
+              <div class="expand-title" style="color:var(--blue)">Oportunidades</div>
+              <div class="expand-summary">El mercado de bienestar adolescente en México está completamente vacío</div>
+            </div>
+          </div>
+          <div class="expand-chevron">▾</div>
         </div>
-        <div class="foda-card amenaza reveal reveal-delay-3">
-          <div class="foda-label">Amenazas</div>
-          <h4>Entorno competitivo</h4>
-          <ul class="foda-items">
-            <li>TikTok y YouTube roban atención</li>
-            <li>Calm y Headspace como competidores wellness</li>
-            <li>Regulación de datos de menores</li>
-            <li>Riesgo de percibirse como "greenwashing emocional"</li>
-          </ul>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <ul>
+              <li><strong>Crisis de salud mental adolescente</strong> — Ligada al estilo de vida digital actual: hiperconectividad, presión académica y comparación social constante. El 12% de jóvenes de 10-19 años en México están afectados (UNICEF).</li>
+              <li><strong>Ninguna plataforma ocupa este espacio</strong> — No existe ninguna marca de entretenimiento posicionada deliberadamente como acompañante emocional digital para adolescentes en México.</li>
+              <li><strong>Contexto regulatorio favorable</strong> — Incorporación de salud mental en programas educativos del gobierno mexicano abre puertas a alianzas institucionales.</li>
+              <li><strong>Demanda creciente de contenido wellness en español</strong> — Calm y Headspace tienen baja penetración precisamente por la barrera del idioma y el precio.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-block reveal" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <div class="expand-header-left">
+            <div class="expand-icon-box" style="background:rgba(255,230,0,0.1)">⚠️</div>
+            <div>
+              <div class="expand-title" style="color:var(--yellow)">Debilidades</div>
+              <div class="expand-summary">Barreras de percepción y comunicación sin estrategia integral</div>
+            </div>
+          </div>
+          <div class="expand-chevron">▾</div>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <ul>
+              <li><strong>Percibida como entretenimiento, no bienestar</strong> — Su posicionamiento está enfocado en música y entretenimiento. Un cambio hacia el bienestar emocional requerirá un esfuerzo comunicativo significativo y consistente.</li>
+              <li><strong>Iniciativas wellness dispersas</strong> — El catálogo de podcasts de salud mental en español existe, las playlists emocionales existen, pero no están articuladas como estrategia. El usuario adolescente mexicano no las encuentra fácilmente.</li>
+              <li><strong>Riesgo algorítmico</strong> — El algoritmo, diseñado para maximizar el engagement musical, podría potencialmente reforzar estados de ánimo negativos al proporcionar contenido que coincide con la tristeza del usuario en lugar de regularlo.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-block reveal" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <div class="expand-header-left">
+            <div class="expand-icon-box" style="background:rgba(255,77,143,0.12)">🔥</div>
+            <div>
+              <div class="expand-title" style="color:var(--pink)">Amenazas</div>
+              <div class="expand-summary">TikTok, regulación de datos y riesgo de percibirse como oportunismo</div>
+            </div>
+          </div>
+          <div class="expand-chevron">▾</div>
+        </div>
+        <div class="expand-body">
+          <div class="expand-body-inner">
+            <ul>
+              <li><strong>TikTok y YouTube</strong> — Reciben cada día más atención de adolescentes mexicanos, dificultando la consolidación de un hábito de escucha consciente en Spotify.</li>
+              <li><strong>Calm y Headspace como competidores indirectos</strong> — Aunque con baja penetración, podrían volverse amenazas reales si ajustan sus precios y contenido en español para el mercado mexicano.</li>
+              <li><strong>Regulación de datos de menores</strong> — La legislación mexicana sobre protección de datos para menores se está endureciendo, lo que podría limitar la personalización algorítmica.</li>
+              <li><strong>Riesgo de "greenwashing emocional"</strong> — Una comunicación deficiente sobre salud mental podría perjudicar la reputación de Spotify, ya que la audiencia adolescente valora profundamente la autenticidad.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- OBJETIVOS -->
+    <!-- OBJETIVOS - EXPANDABLE -->
     <div>
-      <h3 class="obj-section-title reveal">5 Objetivos de Marketing</h3>
-      <div class="obj-list">
-        <div class="obj-item reveal">
-          <div class="obj-num">01</div>
-          <div class="obj-content">
-            <h4>Posicionamiento de Bienestar Emocional</h4>
-            <p>Ser la primera opción cuando un adolescente mexicano sienta ansiedad o tristeza — antes que TikTok o YouTube.</p>
+      <h3 class="obj-section-title reveal">5 Objetivos de Marketing <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;letter-spacing:0.08em">— clic para leer más</span></h3>
+      <div style="max-width:900px;margin:0 auto;">
+
+        <div class="expand-block reveal" onclick="toggleExpand(this)">
+          <div class="expand-header">
+            <div class="expand-header-left">
+              <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;opacity:0.2;min-width:32px">01</div>
+              <div>
+                <div class="expand-title">Posicionamiento de Bienestar Emocional</div>
+                <div class="expand-summary">Ser la primera opción ante la ansiedad — antes que TikTok o YouTube</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="background:rgba(61,255,122,0.15);color:var(--green-neon);border:1px solid rgba(61,255,122,0.3);padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:700;white-space:nowrap">Top Priority</span>
+              <div class="expand-chevron">▾</div>
+            </div>
           </div>
-          <div class="obj-badge" style="background:rgba(61,255,122,0.15);color:var(--green-neon);border:1px solid rgba(61,255,122,0.3)">Top Priority</div>
-        </div>
-        <div class="obj-item reveal reveal-delay-1">
-          <div class="obj-num">02</div>
-          <div class="obj-content">
-            <h4>Introducir Contenido Wellness en México</h4>
-            <p>Colaboraciones con psicólogos mexicanos. Contenido original en español, visible y accesible para el segmento correcto.</p>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <p>El análisis FODA reveló que la oportunidad más valiosa para Spotify en México es un territorio que hoy no ocupa ninguna marca de forma deliberada: el de <strong>acompañante emocional digital para adolescentes</strong>.</p>
+              <p>El objetivo concreto es establecer a Spotify como el referente de apoyo emocional no clínico para jóvenes de 13 a 19 años. Esto no significa que Spotify se convierta en una aplicación terapéutica — sino que cuando un adolescente mexicano sienta ansiedad o tristeza, <strong>Spotify sea la primera opción</strong> que le venga a la mente antes que TikTok, YouTube o simplemente no hacer nada.</p>
+              <p><strong>Indicador:</strong> Incremento en búsquedas orgánicas de términos relacionados con bienestar asociados a Spotify y volumen de conversación espontánea en redes sociales que vincule la marca con temas de salud mental de forma positiva.</p>
+            </div>
           </div>
-          <div class="obj-badge" style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.25)">Contenido</div>
         </div>
-        <div class="obj-item reveal reveal-delay-2">
-          <div class="obj-num">03</div>
-          <div class="obj-content">
-            <h4>Promover Conversión Premium por Bienestar</h4>
-            <p>Agregar una tercera razón para pagar Premium: el acceso completo a la experiencia de bienestar sin interrupciones.</p>
+
+        <div class="expand-block reveal" onclick="toggleExpand(this)">
+          <div class="expand-header">
+            <div class="expand-header-left">
+              <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;opacity:0.2;min-width:32px">02</div>
+              <div>
+                <div class="expand-title">Transformación de Contenido Wellness en México y LATAM</div>
+                <div class="expand-summary">El contenido ya existe — falta articularlo, comunicarlo y adaptarlo culturalmente</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.25);padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:700;white-space:nowrap">Contenido</span>
+              <div class="expand-chevron">▾</div>
+            </div>
           </div>
-          <div class="obj-badge" style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.25)">Revenue</div>
-        </div>
-        <div class="obj-item reveal reveal-delay-3">
-          <div class="obj-num">04</div>
-          <div class="obj-content">
-            <h4>Alianzas Institucionales Estratégicas</h4>
-            <p>Mínimo 3 alianzas con instituciones de salud o educativas en México para ganar credibilidad clínica.</p>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <p>Este objetivo nace de una debilidad específica: las iniciativas de bienestar que Spotify ya tiene <strong>no están articuladas ni comunicadas como estrategia en México</strong>. El catálogo de podcasts de salud mental en español existe, las playlists emocionales existen, pero el usuario adolescente mexicano no las encuentra fácilmente ni las asocia con Spotify de forma consciente.</p>
+              <p>La estrategia incluye colaboraciones con psicólogos y terapeutas mexicanos que produzcan contenido original para la plataforma, y activaciones que pongan ese contenido frente al segmento correcto en el momento correcto.</p>
+              <p><strong>Ejemplo de referencia:</strong> En 2022, Spotify y UNICEF lanzaron "Una mente sana importa" en 7 países de América Latina incluyendo México, con podcasts y playlists de bienestar. Esta infraestructura ya existe — falta escalarla.</p>
+            </div>
           </div>
-          <div class="obj-badge" style="background:rgba(123,47,255,0.1);color:#B97FFF;border:1px solid rgba(123,47,255,0.3)">Alianzas</div>
         </div>
-        <div class="obj-item reveal reveal-delay-4">
-          <div class="obj-num">05</div>
-          <div class="obj-content">
-            <h4>Normalizar el Bienestar Emocional</h4>
-            <p>Usar la plataforma para romper el estigma — que pedir ayuda sea visto como valentía, no debilidad.</p>
+
+        <div class="expand-block reveal" onclick="toggleExpand(this)">
+          <div class="expand-header">
+            <div class="expand-header-left">
+              <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;opacity:0.2;min-width:32px">03</div>
+              <div>
+                <div class="expand-title">Promover Conversión Premium por Bienestar</div>
+                <div class="expand-summary">Agregar una tercera razón para pagar — más allá de la música y los anuncios</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.25);padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:700;white-space:nowrap">Revenue</span>
+              <div class="expand-chevron">▾</div>
+            </div>
           </div>
-          <div class="obj-badge" style="background:rgba(255,77,143,0.1);color:var(--pink);border:1px solid rgba(255,77,143,0.25)">Impacto Social</div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <p>Hoy, las razones principales para pagar Spotify Premium son: (1) eliminar anuncios y (2) descargar música sin conexión. Este objetivo propone agregar una <strong>tercera razón de conversión: el bienestar</strong>.</p>
+              <p>Si el ecosistema de funcionalidades emocionales — Daylist, sonidos ambientales, playlists terapéuticas — es lo suficientemente valioso, una parte del segmento estará dispuesta a pagar para tener acceso completo sin interrupciones. Esto diversifica la propuesta de valor de la suscripción y abre una narrativa completamente nueva frente a competidores.</p>
+              <p><strong>Ruta de conversión adolescente:</strong> Plan Familiar ($239/6 personas ≈ $40/persona), Plan Estudiante ($74/mes con verificación universitaria), o Gift Cards en OXXO para quienes no tienen tarjeta bancaria.</p>
+            </div>
+          </div>
         </div>
+
+        <div class="expand-block reveal" onclick="toggleExpand(this)">
+          <div class="expand-header">
+            <div class="expand-header-left">
+              <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;opacity:0.2;min-width:32px">04</div>
+              <div>
+                <div class="expand-title">Alianzas Institucionales Estratégicas</div>
+                <div class="expand-summary">Mínimo 3 alianzas con instituciones de salud o educativas en México</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="background:rgba(123,47,255,0.1);color:#B97FFF;border:1px solid rgba(123,47,255,0.3);padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:700;white-space:nowrap">Alianzas</span>
+              <div class="expand-chevron">▾</div>
+            </div>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <p>Este objetivo responde al riesgo de que una campaña de salud mental de Spotify sea percibida como <strong>oportunismo de marca</strong> ("greenwashing emocional"). Para protegerse contra esa percepción y compensar la falta de credibilidad clínica, se plantean alianzas formales con al menos tres instituciones relevantes en México.</p>
+              <ul>
+                <li>Instituciones de salud mental (IMSS, ISSSTE, institutos de psiquiatría)</li>
+                <li>Universidades con programas de psicología (UNAM, TEC, UDEM)</li>
+                <li>Organizaciones de bienestar juvenil (UNICEF México, Cruz Roja)</li>
+              </ul>
+              <p>Estas alianzas no solo validan el contenido de bienestar ante los adolescentes, sino que abren la puerta a recomendaciones activas de Spotify como recurso de apoyo emocional.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="expand-block reveal" onclick="toggleExpand(this)">
+          <div class="expand-header">
+            <div class="expand-header-left">
+              <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;opacity:0.2;min-width:32px">05</div>
+              <div>
+                <div class="expand-title">Normalizar el Bienestar Emocional</div>
+                <div class="expand-summary">Usar la plataforma para romper el estigma — pedir ayuda es valentía</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="background:rgba(255,77,143,0.1);color:var(--pink);border:1px solid rgba(255,77,143,0.25);padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:700;white-space:nowrap">Impacto Social</span>
+              <div class="expand-chevron">▾</div>
+            </div>
+          </div>
+          <div class="expand-body">
+            <div class="expand-body-inner">
+              <p>Este es el objetivo con mayor dimensión social del plan. El estigma en torno a hablar de ansiedad y depresión entre los jóvenes mexicanos es una <strong>barrera real que impide buscar ayuda</strong>, ya sea profesional o digital.</p>
+              <p>Spotify, desde su posición de marca cultural con altísima recepción en este segmento, tiene la capacidad de contribuir a cambiar esa narrativa. El objetivo es usar la plataforma y sus canales para normalizar el hecho de que sentirse mal es parte de la experiencia adolescente, y que <strong>buscar apoyo es un acto de valentía y no de debilidad</strong>.</p>
+              <p>Herramienta clave: un <strong>"Wrapped de Bienestar"</strong> que muestre cómo la música acompañó al usuario emocionalmente durante el año — no solo musicalmente. Esta narrativa convierte datos en historias de impacto emocional profundo.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1207,7 +1709,7 @@
   <!-- Mapa de Perfiles -->
   <div class="perfiles-map reveal">
     <h3 class="obj-section-title" style="margin-bottom:20px">Mapa de Perfiles</h3>
-    <div class="map-container" style="max-width:700px">
+    <div class="map-container" style="max-width:700px;height:500px">
       <div class="axis-x"></div>
       <div class="axis-y"></div>
       <div class="axis-label top">ALTO interés en bienestar</div>
@@ -1243,36 +1745,126 @@
   </div>
 
   <!-- Personas -->
-  <h3 class="obj-section-title reveal" style="margin-top:64px">Perfiles de Usuario</h3>
-  <div class="personas-grid">
-    <div class="persona-card featured reveal">
-      <div class="persona-avatar">🧑‍🎧</div>
-      <h4>Mateo</h4>
-      <div class="persona-age">17 años · Monterrey · Preparatoria</div>
-      <p class="persona-desc">Usa Spotify diario según su ánimo. En momentos de estrés busca playlists o podcasts para relajarse. Usa redes y prefiere lo gratuito.</p>
-      <span class="persona-tag" style="background:rgba(61,255,122,0.15);color:var(--green-neon);border:1px solid rgba(61,255,122,0.3)">Cliente Principal</span>
+  <h3 class="obj-section-title reveal" style="margin-top:64px">User Stories — Perfiles de Usuario</h3>
+
+  <!-- MATEO - FEATURED / PRINCIPAL -->
+  <div class="reveal" style="max-width:1200px;margin:0 auto 32px;">
+    <div style="background:rgba(61,255,122,0.05);border:2px solid rgba(61,255,122,0.35);border-radius:28px;padding:40px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;bottom:0;width:40%;background:radial-gradient(circle at 80% 50%,rgba(61,255,122,0.08) 0%,transparent 70%);pointer-events:none"></div>
+      <!-- Header -->
+      <div style="display:flex;align-items:flex-start;gap:24px;margin-bottom:28px;flex-wrap:wrap">
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(61,255,122,0.15);border:2px solid rgba(61,255,122,0.4);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0">🧑‍🎧</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+            <span style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900">Mateo</span>
+            <span style="background:var(--green-neon);color:#000;font-size:0.65rem;font-weight:900;padding:4px 12px;border-radius:100px;letter-spacing:0.1em;text-transform:uppercase">★ Usuario Principal</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--text-muted)">17 años · Monterrey · Último año de preparatoria</div>
+        </div>
+      </div>
+
+      <!-- Por qué es el principal -->
+      <div style="background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.25);border-radius:16px;padding:20px;margin-bottom:28px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:8px">¿Por qué es el usuario principal?</div>
+        <p style="font-size:0.88rem;line-height:1.65;color:rgba(255,255,255,0.85)">Mateo es el único perfil que combina <strong style="color:#fff">alta vulnerabilidad emocional + acceso gratuito + uso intuitivo de Spotify como regulador emocional</strong> — sin saberlo. La plataforma ya lo está ayudando; solo falta que Spotify lo formalice. Es el adolescente que más necesita el producto y el que menos barreras tiene para adoptarlo.</p>
+      </div>
+
+      <!-- User Story -->
+      <div style="margin-bottom:28px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:10px">User Story</div>
+        <div style="background:rgba(255,255,255,0.04);border-left:3px solid var(--green-neon);padding:16px 20px;border-radius:0 12px 12px 0;font-size:0.9rem;line-height:1.65;color:rgba(255,255,255,0.85);font-style:italic">
+          "Como adolescente que vive con estrés académico y presión social constante, cuando me siento agobiado o ansioso, abro Spotify para poner música que me ayude a respirar — porque es lo único que siento que me entiende sin juzgarme."
+        </div>
+      </div>
+
+      <!-- Un día en su vida -->
+      <div>
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:16px">Un día en su vida con Spotify</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--green-neon);margin-bottom:6px">☀️ 7:00 AM</div>
+            <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.5">Camino a la prepa con audífonos. Abre el Daylist — hoy le puso algo tranquilo porque ayer se durmió tarde viendo TikTok.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--green-neon);margin-bottom:6px">📚 1:00 PM</div>
+            <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.5">Examen de química. En el receso busca "lo-fi para estudiar" — lo pone en voz baja bajo la mesa para concentrarse.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--green-neon);margin-bottom:6px">⚽ 4:00 PM</div>
+            <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.5">Entreno de fútbol. Playlist de trap y reguetón a todo volumen. Spotify sabe que a esta hora quiere energía.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:16px">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--green-neon);margin-bottom:6px">🌙 10:30 PM</div>
+            <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.5">No puede dormir. Ansiedad por los resultados del examen. Sin buscarlo, el algoritmo le sugiere un podcast: <em>"Cómo calmar tu mente antes de dormir."</em> Lo escucha por primera vez.</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="persona-card reveal reveal-delay-1">
-      <div class="persona-avatar">👩‍🎵</div>
-      <h4>Jimena</h4>
-      <div class="persona-age">19 años · Monterrey · Universidad</div>
-      <p class="persona-desc">Le encantan la música y podcasts emocionales. Cuando siente ansiedad pone sus favoritos. No tiene problema pagando Premium.</p>
-      <span class="persona-tag" style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.2)">Potencial Premium</span>
+  </div>
+
+  <!-- Grid de los otros 3 perfiles -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto" class="reveal reveal-delay-1">
+
+    <!-- JIMENA -->
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div class="persona-avatar">👩‍🎵</div>
+        <div>
+          <h4 style="margin-bottom:2px">Jimena</h4>
+          <div class="persona-age" style="margin-bottom:0">19 años · Monterrey · Universidad</div>
+        </div>
+      </div>
+      <span class="persona-tag" style="background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.2);margin-bottom:16px;display:inline-block">Buscador Bienestar Premium</span>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">User Story</div>
+      <p style="font-size:0.8rem;color:var(--text-muted);font-style:italic;margin-bottom:16px;line-height:1.55">"Como universitaria que gestiona ansiedad de forma consciente, uso Spotify Premium porque los podcasts de bienestar y las playlists emocionales son parte de mi rutina diaria — sin anuncios que rompan el momento."</p>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px">Su día con Spotify</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🌅 Mañana:</span> Podcast de psicología positiva mientras desayuna y se alista para clases.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">📖 Tarde:</span> Playlist "Deep Focus" durante horas de estudio en la biblioteca.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🌙 Noche:</span> Cuando siente ansiedad, abre su playlist guardada "cuando todo se siente demasiado" y practica respiración guiada.</div>
+      </div>
     </div>
-    <div class="persona-card reveal reveal-delay-2">
-      <div class="persona-avatar">👨‍💼</div>
-      <h4>Arturo</h4>
-      <div class="persona-age">26 años · Torreón · Profesional</div>
-      <p class="persona-desc">Usa Spotify solo en días pesados para relajarse. No busca contenido de bienestar pero le gusta la música que lo pone de buen humor. Paga Premium.</p>
-      <span class="persona-tag" style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.2)">Usuario Práctico</span>
+
+    <!-- ARTURO -->
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div class="persona-avatar">👨‍💼</div>
+        <div>
+          <h4 style="margin-bottom:2px">Arturo</h4>
+          <div class="persona-age" style="margin-bottom:0">26 años · Torreón · Profesional</div>
+        </div>
+      </div>
+      <span class="persona-tag" style="background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.2);margin-bottom:16px;display:inline-block">Usuario Práctico Premium</span>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:6px">User Story</div>
+      <p style="font-size:0.8rem;color:var(--text-muted);font-style:italic;margin-bottom:16px;line-height:1.55">"Como profesional con días de alto estrés laboral, uso Spotify Premium para desconectarme rápido con música que me cambie el humor — sin anuncios que arruinen el momento."</p>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px">Su día con Spotify</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🚗 Mañana:</span> Noticias y podcast de negocios en el carro al trabajo.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">💼 Tarde:</span> Música de fondo en la oficina, cambia según la junta que tenga.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🍺 Noche:</span> Después de un día pesado, playlist de rock en español para "bajar la adrenalina". No busca bienestar — pero lo obtiene.</div>
+      </div>
     </div>
-    <div class="persona-card reveal reveal-delay-3">
-      <div class="persona-avatar">👧</div>
-      <h4>Valentina</h4>
-      <div class="persona-age">14 años · Monterrey · Secundaria</div>
-      <p class="persona-desc">Usa Spotify para entretenerse y escuchar lo que está de moda. No busca contenido emocional. Sus papás no ven valor en pagar.</p>
-      <span class="persona-tag" style="background:rgba(255,230,0,0.08);color:var(--yellow);border:1px solid rgba(255,230,0,0.2)">Entretenimiento</span>
+
+    <!-- VALENTINA -->
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div class="persona-avatar">👧</div>
+        <div>
+          <h4 style="margin-bottom:2px">Valentina</h4>
+          <div class="persona-age" style="margin-bottom:0">14 años · Monterrey · Secundaria</div>
+        </div>
+      </div>
+      <span class="persona-tag" style="background:rgba(255,230,0,0.08);color:var(--yellow);border:1px solid rgba(255,230,0,0.2);margin-bottom:16px;display:inline-block">Usuario Gratuito Entretenimiento</span>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px">User Story</div>
+      <p style="font-size:0.8rem;color:var(--text-muted);font-style:italic;margin-bottom:16px;line-height:1.55">"Como estudiante de secundaria, abro Spotify para escuchar lo que está sonando en TikTok — quiero estar al día con mis amigas y la música es parte de eso."</p>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px">Su día con Spotify</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">📲 Tarde:</span> Llega de la escuela y abre Spotify para escuchar las canciones virales de la semana.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🛍️ Finde:</span> Sale con amigas y comparten canciones por Spotify. Uso completamente social.</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5"><span style="color:#fff">🚫 Bienestar:</span> No busca contenido emocional. Los anuncios le molestan pero sus papás no ven valor en pagar.</div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -1280,93 +1872,306 @@
 <section id="posicionamiento">
   <div class="section-number reveal">06 / Posicionamiento</div>
   <h2 class="section-title reveal reveal-delay-1">Sin rival<br>real.</h2>
-  <p class="section-subtitle reveal reveal-delay-2">Spotify domina en personalización Y diversidad de contenido. Sus competidores no pueden alcanzarlos en ambas dimensiones.</p>
+  <p class="section-subtitle reveal reveal-delay-2">Spotify domina en personalización Y diversidad de contenido. Sus competidores directos e indirectos no pueden alcanzarlo en ambas dimensiones.</p>
 
-  <div class="pos-layout">
-    <!-- Mapa de posicionamiento -->
-    <div class="reveal">
-      <div class="pos-map">
-        <div class="pos-axis-x"></div>
-        <div class="pos-axis-y"></div>
-        <div class="pos-label top">Alta Diversidad de Contenido</div>
-        <div class="pos-label bottom">Baja Diversidad</div>
-        <div class="pos-label left-l">Baja Personalización</div>
-        <div class="pos-label right-l">Alta Personalización</div>
+  <!-- QUICK FACTS POSICIONAMIENTO -->
+  <div class="qf-grid reveal">
+    <div class="quick-fact" onclick="openModal('pos-spotify')">
+      <div class="qf-icon">🥇</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">31%</div><div class="qf-label">Market share<br>streaming global</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('pos-catalogo')">
+      <div class="qf-icon">🎵</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">100M+</div><div class="qf-label">Canciones en<br>catálogo</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('pos-calm')">
+      <div class="qf-icon">🧘</div>
+      <div><div class="qf-val" style="color:#B97FFF">~$69</div><div class="qf-label">USD/año Calm<br>Sin plan MXN fijo</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('pos-headspace')">
+      <div class="qf-icon">🧠</div>
+      <div><div class="qf-val" style="color:var(--orange)">$12.99</div><div class="qf-label">USD/mes Headspace<br>Sin plan estudiante MX</div></div>
+    </div>
+    <div class="quick-fact" onclick="openModal('pos-ventaja')">
+      <div class="qf-icon">⚡</div>
+      <div><div class="qf-val" style="color:var(--green-neon)">Ya ahí</div><div class="qf-label">Spotify ya tiene<br>al adolescente</div></div>
+    </div>
+  </div>
+  <p style="font-size:0.7rem;color:rgba(255,255,255,0.25);margin:-12px 0 32px;display:flex;align-items:center;gap:6px" class="reveal">
+    <span class="it-dot"></span> Haz clic para comparar en detalle
+  </p>
 
-        <!-- Spotify: top right -->
-        <div class="brand-dot" style="left:80%;top:18%">
-          <div class="dot-inner" style="width:56px;height:56px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#000">SPOT</div>
-          <div class="dot-label" style="color:var(--green-neon)">Spotify ⭐</div>
+  <!-- COMPETENCIA DIRECTA -->
+  <div style="max-width:1200px;margin:0 auto 64px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px" class="reveal">
+      <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:900">Competencia Directa</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.08)"></div>
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">Plataformas de audio</div>
+    </div>
+
+    <div class="pos-layout">
+      <div class="reveal">
+        <div class="pos-map">
+          <div class="pos-axis-x"></div>
+          <div class="pos-axis-y"></div>
+          <div class="pos-label top">Alta Diversidad de Contenido</div>
+          <div class="pos-label bottom">Baja Diversidad</div>
+          <div class="pos-label left-l">Baja Personalización</div>
+          <div class="pos-label right-l">Alta Personalización</div>
+          <div class="brand-dot" style="left:80%;top:18%">
+            <div class="dot-inner" style="width:56px;height:56px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#000">SPOT</div>
+            <div class="dot-label" style="color:var(--green-neon)">Spotify ⭐</div>
+          </div>
+          <div class="brand-dot" style="left:65%;top:22%">
+            <div class="dot-inner" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">🍎</div>
+            <div class="dot-label" style="color:var(--text-muted)">Apple Music</div>
+          </div>
+          <div class="brand-dot" style="left:30%;top:28%">
+            <div class="dot-inner" style="width:36px;height:36px;background:rgba(255,0,0,0.2);border:2px solid rgba(255,80,80,0.4);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">▶</div>
+            <div class="dot-label" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
+          </div>
+          <div class="brand-dot" style="left:28%;top:70%">
+            <div class="dot-inner" style="width:32px;height:32px;background:rgba(255,168,0,0.15);border:2px solid rgba(255,168,0,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">📦</div>
+            <div class="dot-label" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
+          </div>
         </div>
-        <!-- Apple Music: top center-right -->
-        <div class="brand-dot" style="left:65%;top:22%">
-          <div class="dot-inner" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">🍎</div>
-          <div class="dot-label" style="color:var(--text-muted)">Apple Music</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:16px;text-align:center">Eje X: Personalización · Eje Y: Diversidad de contenido</div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="comp-table">
+          <div class="comp-row">
+            <div class="comp-brand" style="color:var(--green)">Spotify</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-metric">Estudiante → Familiar</div>
+              <div class="comp-bar"><div class="comp-bar-fill" style="width:100%;background:var(--green)"></div></div>
+            </div>
+            <div class="comp-price" style="color:var(--green)">$74–$239</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-brand" style="color:rgba(255,255,255,0.7)">Apple Music</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-metric">Estudiante → Familiar</div>
+              <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,255,255,0.5)"></div></div>
+            </div>
+            <div class="comp-price" style="color:rgba(255,255,255,0.6)">$69–$199</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-brand" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-metric">Individual → Familiar</div>
+              <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,80,80,0.5)"></div></div>
+            </div>
+            <div class="comp-price" style="color:rgba(255,80,80,0.7)">$69–$199</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-brand" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-metric">Individual → Familiar</div>
+              <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,168,0,0.4)"></div></div>
+            </div>
+            <div class="comp-price" style="color:rgba(255,168,0,0.6)">$69–$199</div>
+          </div>
         </div>
-        <!-- YouTube Music: top left -->
-        <div class="brand-dot" style="left:30%;top:28%">
-          <div class="dot-inner" style="width:36px;height:36px;background:rgba(255,0,0,0.2);border:2px solid rgba(255,80,80,0.4);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">▶</div>
-          <div class="dot-label" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
-        </div>
-        <!-- Amazon Music: bottom left -->
-        <div class="brand-dot" style="left:28%;top:70%">
-          <div class="dot-inner" style="width:32px;height:32px;background:rgba(255,168,0,0.15);border:2px solid rgba(255,168,0,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900">📦</div>
-          <div class="dot-label" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
+        <div style="margin-top:24px;padding:24px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:16px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-neon);margin-bottom:8px">Ventaja clave</div>
+          <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6">Spotify es el más caro — y el más usado. Único ecosistema que integra música, podcasts, audiolibros y bienestar en una sola app con IA emocional.</p>
         </div>
       </div>
-      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:16px;text-align:center">
-        Eje X: Nivel de personalización · Eje Y: Diversidad de contenido y ecosistema
+    </div>
+  </div>
+
+  <!-- COMPETENCIA INDIRECTA -->
+  <div style="max-width:1200px;margin:0 auto 32px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px" class="reveal">
+      <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:900">Competencia Indirecta</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.08)"></div>
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">Apps de bienestar emocional</div>
+    </div>
+
+    <!-- Mapa indirecto -->
+    <div class="pos-layout" style="margin-bottom:32px">
+      <div class="reveal">
+        <div class="pos-map">
+          <div class="pos-axis-x"></div>
+          <div class="pos-axis-y"></div>
+          <div class="pos-label top">Alto enfoque en bienestar</div>
+          <div class="pos-label bottom">Bajo enfoque en bienestar</div>
+          <div class="pos-label left-l">Menos accesible</div>
+          <div class="pos-label right-l">Más accesible</div>
+          <!-- Spotify: alto bienestar, muy accesible -->
+          <div class="brand-dot" style="left:80%;top:20%">
+            <div class="dot-inner" style="width:56px;height:56px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#000">SPOT</div>
+            <div class="dot-label" style="color:var(--green-neon)">Spotify ⭐</div>
+          </div>
+          <!-- Headspace: alto bienestar, poco accesible en MX -->
+          <div class="brand-dot" style="left:22%;top:22%">
+            <div class="dot-inner" style="width:44px;height:44px;background:rgba(255,107,53,0.2);border:2px solid rgba(255,107,53,0.5);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;color:var(--orange)">HS</div>
+            <div class="dot-label" style="color:var(--orange)">Headspace</div>
+          </div>
+          <!-- Calm: alto bienestar, poco accesible -->
+          <div class="brand-dot" style="left:30%;top:35%">
+            <div class="dot-inner" style="width:40px;height:40px;background:rgba(123,47,255,0.2);border:2px solid rgba(123,47,255,0.4);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;color:#B97FFF">CA</div>
+            <div class="dot-label" style="color:#B97FFF">Calm</div>
+          </div>
+          <!-- TikTok: bajo bienestar, muy accesible -->
+          <div class="brand-dot" style="left:75%;top:72%">
+            <div class="dot-inner" style="width:36px;height:36px;background:rgba(0,212,255,0.15);border:2px solid rgba(0,212,255,0.35);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;color:var(--blue)">TT</div>
+            <div class="dot-label" style="color:var(--blue)">TikTok</div>
+          </div>
+          <!-- YouTube: bajo bienestar, accesible -->
+          <div class="brand-dot" style="left:55%;top:78%">
+            <div class="dot-inner" style="width:32px;height:32px;background:rgba(255,80,80,0.15);border:2px solid rgba(255,80,80,0.35);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:rgba(255,80,80,0.9)">YT</div>
+            <div class="dot-label" style="color:rgba(255,80,80,0.8)">YouTube</div>
+          </div>
+        </div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:16px;text-align:center">Eje X: Accesibilidad para adolescentes MX · Eje Y: Enfoque en bienestar emocional</div>
+      </div>
+
+      <!-- Fichas Calm y Headspace -->
+      <div style="display:flex;flex-direction:column;gap:20px" class="reveal reveal-delay-1">
+
+        <!-- Headspace -->
+        <div style="background:rgba(255,107,53,0.07);border:1px solid rgba(255,107,53,0.25);border-radius:20px;padding:28px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,107,53,0.15);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:900;color:var(--orange)">HS</div>
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900">Headspace</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">App de mindfulness y meditación guiada</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+            <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:900;color:var(--orange)">$12.99</div>
+              <div style="font-size:0.68rem;color:var(--text-muted)">USD/mes</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:900;color:var(--orange)">~$5.83</div>
+              <div style="font-size:0.68rem;color:var(--text-muted)">USD/mes (plan anual)</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:0.78rem;color:var(--text-muted)">✅ Prueba gratuita de 14 días</div>
+            <div style="font-size:0.78rem;color:var(--text-muted)">✅ Contenido 100% enfocado en bienestar</div>
+            <div style="font-size:0.78rem;color:rgba(255,107,53,0.8)">⚠️ Sin plan estudiante disponible en México</div>
+            <div style="font-size:0.78rem;color:rgba(255,107,53,0.8)">⚠️ Solo en inglés — barrera idiomática real</div>
+            <div style="font-size:0.78rem;color:rgba(255,107,53,0.8)">⚠️ Requiere tarjeta para acceder</div>
+          </div>
+        </div>
+
+        <!-- Calm -->
+        <div style="background:rgba(123,47,255,0.07);border:1px solid rgba(123,47,255,0.25);border-radius:20px;padding:28px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(123,47,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:900;color:#B97FFF">CA</div>
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900">Calm</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">Meditación, sueño y manejo de ansiedad</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+            <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:900;color:#B97FFF">~$69</div>
+              <div style="font-size:0.68rem;color:var(--text-muted)">USD/año (individual)</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:900;color:#B97FFF">$99.99</div>
+              <div style="font-size:0.68rem;color:var(--text-muted)">USD/año (familiar, hasta 6)</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:0.78rem;color:var(--text-muted)">✅ Prueba gratuita de 7 días</div>
+            <div style="font-size:0.78rem;color:var(--text-muted)">✅ Historias para dormir, meditaciones guiadas</div>
+            <div style="font-size:0.78rem;color:rgba(123,47,255,0.9)">⚠️ Precio varía por país — sin precio fijo en MXN</div>
+            <div style="font-size:0.78rem;color:rgba(123,47,255,0.9)">⚠️ Sin modelo freemium real — contenido muy limitado gratis</div>
+            <div style="font-size:0.78rem;color:rgba(123,47,255,0.9)">⚠️ Baja penetración en México</div>
+          </div>
+        </div>
+
+        <!-- Ventaja Spotify vs indirectos -->
+        <div style="background:rgba(61,255,122,0.08);border:1px solid rgba(61,255,122,0.3);border-radius:16px;padding:20px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-neon);margin-bottom:8px">¿Por qué Spotify gana?</div>
+          <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.6">Spotify ya tiene al adolescente. Calm y Headspace tienen que conquistarlo desde cero — en inglés, con pago obligatorio y sin la música que él ya ama.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6B: PRICE POSITIONING -->
+<section id="precios" style="background:#08080F">
+  <div class="section-number reveal">06B / Price Positioning</div>
+  <h2 class="section-title reveal reveal-delay-1">El precio<br><span style="color:var(--yellow)">correcto.</span></h2>
+  <p class="section-subtitle reveal reveal-delay-2">Spotify tiene la estrategia de precios más flexible del mercado — con rutas accesibles para cada perfil de usuario, incluyendo adolescentes sin tarjeta propia.</p>
+
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <!-- Planes Spotify con detalle -->
+    <h3 class="obj-section-title reveal" style="margin-bottom:28px">Planes Spotify en México</h3>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:64px" class="reveal">
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🆓</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:4px">Gratis</div>
+        <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,255,255,0.5);margin:8px 0">$0</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">Con anuncios</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);line-height:1.5">Acceso básico · Shuffled · Con anuncios</div>
+      </div>
+
+      <div style="background:rgba(61,255,122,0.1);border:2px solid rgba(61,255,122,0.4);border-radius:20px;padding:24px;text-align:center;position:relative">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--green-neon);color:#000;font-size:0.6rem;font-weight:900;padding:3px 12px;border-radius:100px;white-space:nowrap;letter-spacing:0.08em">★ IDEAL MATEO</div>
+        <div style="font-size:1.8rem;margin-bottom:8px">🎓</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:4px">Estudiante</div>
+        <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:900;color:var(--green-neon);margin:8px 0">$74</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">MXN / mes</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);line-height:1.5">Sin anuncios · Descarga offline · Hasta 4 años · 1 mes gratis al inicio</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">👤</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:4px">Individual</div>
+        <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,255,255,0.7);margin:8px 0">$139</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">MXN / mes</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);line-height:1.5">Sin anuncios · Offline · 1 cuenta</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">👫</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:4px">Dúo</div>
+        <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,255,255,0.7);margin:8px 0">$189</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">MXN / mes</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);line-height:1.5">2 cuentas · Mismo domicilio</div>
+      </div>
+
+      <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.25);border-radius:20px;padding:24px;text-align:center;position:relative">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--blue);color:#000;font-size:0.6rem;font-weight:900;padding:3px 12px;border-radius:100px;white-space:nowrap;letter-spacing:0.08em">PUERTA FAMILIAR</div>
+        <div style="font-size:1.8rem;margin-bottom:8px">👨‍👩‍👧‍👦</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:4px">Familiar</div>
+        <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:900;color:var(--blue);margin:8px 0">$239</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">MXN / mes · hasta 6 cuentas</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);line-height:1.5">$40/persona · El papá paga, el hijo accede</div>
       </div>
     </div>
 
-    <!-- Comparison -->
-    <div class="reveal reveal-delay-2">
-      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:32px">Precios en México (mensual)</h3>
-      <div class="comp-table">
-        <div class="comp-row">
-          <div class="comp-brand" style="color:var(--green)">Spotify</div>
-          <div class="comp-bar-wrap">
-            <div class="comp-metric">Estudiante → Familiar</div>
-            <div class="comp-bar"><div class="comp-bar-fill" style="width:100%;background:var(--green)"></div></div>
-          </div>
-          <div class="comp-price" style="color:var(--green)">$74–$239</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-brand" style="color:rgba(255,255,255,0.7)">Apple Music</div>
-          <div class="comp-bar-wrap">
-            <div class="comp-metric">Estudiante → Familiar</div>
-            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,255,255,0.5)"></div></div>
-          </div>
-          <div class="comp-price" style="color:rgba(255,255,255,0.6)">$69–$199</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-brand" style="color:rgba(255,80,80,0.8)">YouTube Music</div>
-          <div class="comp-bar-wrap">
-            <div class="comp-metric">Individual → Familiar</div>
-            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,80,80,0.5)"></div></div>
-          </div>
-          <div class="comp-price" style="color:rgba(255,80,80,0.7)">$69–$199</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-brand" style="color:rgba(255,168,0,0.7)">Amazon Music</div>
-          <div class="comp-bar-wrap">
-            <div class="comp-metric">Individual → Familiar</div>
-            <div class="comp-bar"><div class="comp-bar-fill" style="width:83%;background:rgba(255,168,0,0.4)"></div></div>
-          </div>
-          <div class="comp-price" style="color:rgba(255,168,0,0.6)">$69–$199</div>
-        </div>
+    <!-- Promociones y estrategias -->
+    <h3 class="obj-section-title reveal" style="margin-bottom:28px">Estrategias Promocionales</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px">
+      <div style="background:rgba(255,230,0,0.07);border:1px solid rgba(255,230,0,0.2);border-radius:20px;padding:28px" class="reveal">
+        <div style="font-size:2rem;margin-bottom:12px">🎁</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--yellow);margin-bottom:8px">1 Mes Gratis</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55">Para nuevos usuarios que nunca han tenido Premium. La forma más fácil de que Mateo pruebe el bienestar sin pagar — y se enganche.</p>
       </div>
-
-      <div style="margin-top:40px;padding:28px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:20px">
-        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:10px">Ventaja Competitiva</div>
-        <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6">Spotify es el más caro — y el más usado. Su precio superior está respaldado por la mayor amplitud de planes, la personalización más profunda y el único ecosistema que integra música, podcasts y audiolibros.</p>
+      <div style="background:rgba(255,77,143,0.07);border:1px solid rgba(255,77,143,0.2);border-radius:20px;padding:28px" class="reveal reveal-delay-1">
+        <div style="font-size:2rem;margin-bottom:12px">🏪</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--pink);margin-bottom:8px">Gift Cards en OXXO</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55">El adolescente sin tarjeta bancaria puede comprar meses de Premium con efectivo en tiendas de conveniencia. Elimina la barrera financiera más común.</p>
       </div>
-
-      <div style="margin-top:20px;padding:28px;background:rgba(123,47,255,0.08);border:1px solid rgba(123,47,255,0.2);border-radius:20px">
-        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#B97FFF;margin-bottom:10px">31% del mercado global</div>
-        <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6">La plataforma de streaming de audio más consumida del mundo. Domina especialmente entre jóvenes de 13 a 24 años en México.</p>
+      <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:28px" class="reveal reveal-delay-2">
+        <div style="font-size:2rem;margin-bottom:12px">📡</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--blue);margin-bottom:8px">Telcel / Movistar</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55">Planes de datos que incluyen Spotify Premium. El adolescente accede a través del plan de su familia — sin que nadie tenga que pagar extra.</p>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1374,7 +2179,18 @@
 <section id="journey">
   <div class="section-number reveal">07 / Customer Journey</div>
   <h2 class="section-title reveal reveal-delay-1">El camino<br><span style="color:var(--blue)">al alivio.</span></h2>
-  <p class="section-subtitle reveal reveal-delay-2">De la crisis al hábito. Así navega un adolescente mexicano desde el problema hasta encontrar su espacio seguro en Spotify.</p>
+  <p class="section-subtitle reveal reveal-delay-2">De la crisis al hábito. Cada paso involucra distintos actores — porque el adolescente rara vez navega este camino completamente solo.</p>
+
+  <!-- Leyenda de stakeholders -->
+  <div style="max-width:1100px;display:flex;flex-wrap:wrap;gap:12px;margin:0 auto 48px;" class="reveal">
+    <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);align-self:center;margin-right:8px">Stakeholders:</div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.25);border-radius:100px;font-size:0.75rem;font-weight:600">🧑‍🎧 <span>Adolescente</span></div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:100px;font-size:0.75rem;font-weight:600">👨‍👩‍👧 <span>Padres / Tutores</span></div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,230,0,0.08);border:1px solid rgba(255,230,0,0.2);border-radius:100px;font-size:0.75rem;font-weight:600">👥 <span>Amigos / Pares</span></div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(123,47,255,0.1);border:1px solid rgba(123,47,255,0.25);border-radius:100px;font-size:0.75rem;font-weight:600">🎓 <span>Institución educativa</span></div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,77,143,0.1);border:1px solid rgba(255,77,143,0.25);border-radius:100px;font-size:0.75rem;font-weight:600">📱 <span>Plataformas digitales</span></div>
+    <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(29,185,84,0.1);border:1px solid rgba(29,185,84,0.25);border-radius:100px;font-size:0.75rem;font-weight:600">🟢 <span>Spotify</span></div>
+  </div>
 
   <div class="journey-flow">
     <div class="journey-line"></div>
@@ -1384,10 +2200,17 @@
         <div class="step-marker" style="border-color:var(--pink);color:var(--pink)">I</div>
         <div class="step-phase" style="color:var(--pink)">Reconocimiento del problema</div>
         <div class="step-title">Algo no está bien.</div>
-        <div class="step-desc">El adolescente enfrenta estrés académico, ansiedad social o soledad. Las redes sociales empeoran su estado emocional. Siente la necesidad urgente de "escapar" del ruido.</div>
-        <div class="step-tags">
+        <div class="step-desc">El adolescente enfrenta estrés académico, ansiedad social o soledad. Las redes sociales empeoran su estado emocional. Siente la urgencia de "escapar" del ruido — pero no sabe cómo nombrarlo.</div>
+        <div class="step-tags" style="margin-bottom:12px">
           <span class="step-tag" style="border-color:rgba(255,77,143,0.3);color:var(--pink)">📱 Instagram / TikTok</span>
           <span class="emotion-tag">😰 Ansiedad · Agobio</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);align-self:center">Stakeholders:</div>
+          <span style="padding:4px 12px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.2);border-radius:100px;font-size:0.72rem">🧑‍🎧 Adolescente — siente el malestar</span>
+          <span style="padding:4px 12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:100px;font-size:0.72rem">👨‍👩‍👧 Padres — pueden o no notar cambios de comportamiento</span>
+          <span style="padding:4px 12px;background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.15);border-radius:100px;font-size:0.72rem">👥 Amigos — primer espejo social del problema</span>
+          <span style="padding:4px 12px;background:rgba(123,47,255,0.08);border:1px solid rgba(123,47,255,0.2);border-radius:100px;font-size:0.72rem">🎓 Institución educativa — presión académica como detonador</span>
         </div>
       </div>
 
@@ -1395,11 +2218,18 @@
         <div class="step-marker" style="border-color:var(--orange);color:var(--orange)">II</div>
         <div class="step-phase" style="color:var(--orange)">Búsqueda de información</div>
         <div class="step-title">¿Existe algo que me ayude?</div>
-        <div class="step-desc">Busca en Google, pregunta amigos, explora TikTok. Investiga si existe alguna herramienta accesible, no estigmatizante, que lo ayude a regular sus emociones desde casa.</div>
-        <div class="step-tags">
+        <div class="step-desc">Busca en Google, pregunta amigos, explora TikTok. Investiga si existe alguna herramienta accesible y no estigmatizante. En algunos casos, un maestro o familiar puede sugerir alternativas digitales.</div>
+        <div class="step-tags" style="margin-bottom:12px">
           <span class="step-tag" style="border-color:rgba(255,107,53,0.3);color:var(--orange)">🔍 Google</span>
           <span class="step-tag" style="border-color:rgba(255,107,53,0.3);color:var(--orange)">💬 Amigos</span>
           <span class="emotion-tag">🤔 Incertidumbre · Esperanza</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);align-self:center">Stakeholders:</div>
+          <span style="padding:4px 12px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.2);border-radius:100px;font-size:0.72rem">🧑‍🎧 Adolescente — búsqueda activa</span>
+          <span style="padding:4px 12px;background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.15);border-radius:100px;font-size:0.72rem">👥 Amigos — recomiendan apps o playlists</span>
+          <span style="padding:4px 12px;background:rgba(123,47,255,0.08);border:1px solid rgba(123,47,255,0.2);border-radius:100px;font-size:0.72rem">🎓 Orientador escolar — puede recomendar recursos</span>
+          <span style="padding:4px 12px;background:rgba(255,77,143,0.08);border:1px solid rgba(255,77,143,0.2);border-radius:100px;font-size:0.72rem">📱 TikTok / IG — influencers de salud mental</span>
         </div>
       </div>
 
@@ -1407,35 +2237,59 @@
         <div class="step-marker" style="border-color:var(--yellow);color:var(--yellow)">III</div>
         <div class="step-phase" style="color:var(--yellow)">Evaluación de alternativas</div>
         <div class="step-title">Spotify vs. el resto.</div>
-        <div class="step-desc">Compara: YouTube tiene demasiados anuncios. TikTok es muy disperso. Calm y Headspace son de pago obligatorio. Spotify tiene la IA que ya lo conoce — y es gratis.</div>
-        <div class="step-tags">
+        <div class="step-desc">Compara: YouTube tiene demasiados anuncios. TikTok es muy disperso. Calm y Headspace son de pago obligatorio en dólares, sin versión estudiante en México. Spotify tiene la IA que ya lo conoce — y es gratis para empezar.</div>
+        <div class="step-tags" style="margin-bottom:12px">
           <span class="step-tag" style="border-color:rgba(255,230,0,0.3);color:var(--yellow)">⚖️ Comparación de apps</span>
           <span class="step-tag" style="border-color:rgba(255,230,0,0.3);color:var(--yellow)">✅ Spotify gana</span>
           <span class="emotion-tag">💡 Esperanza · Curiosidad</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);align-self:center">Stakeholders:</div>
+          <span style="padding:4px 12px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.2);border-radius:100px;font-size:0.72rem">🧑‍🎧 Adolescente — evalúa opciones</span>
+          <span style="padding:4px 12px;background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.15);border-radius:100px;font-size:0.72rem">👥 Amigos — validación social de la elección</span>
+          <span style="padding:4px 12px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:100px;font-size:0.72rem">🟢 Spotify — algoritmo ya conoce al usuario</span>
         </div>
       </div>
 
       <div class="journey-step reveal">
         <div class="step-marker" style="border-color:var(--green-neon);color:var(--green-neon)">IV</div>
-        <div class="step-phase" style="color:var(--green-neon)">Decisión</div>
-        <div class="step-title">Primer escucha. Primer alivio.</div>
-        <div class="step-desc">Abre Spotify. Entra a la sección de Salud Mental. Escucha el primer podcast o meditación. En Premium, sin anuncios que rompan su paz. El momento de conversión más importante.</div>
-        <div class="step-tags">
+        <div class="step-phase" style="color:var(--green-neon)">Decisión de compra / Conversión</div>
+        <div class="step-title">El momento del pago.<br><span style="color:var(--text-muted);font-size:1.1rem">No siempre depende solo de él.</span></div>
+        <div style="background:rgba(61,255,122,0.07);border:1px solid rgba(61,255,122,0.2);border-radius:16px;padding:20px;margin-bottom:16px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-neon);margin-bottom:10px">⚠️ Realidad del adolescente mexicano</div>
+          <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.65">Un adolescente de 13–17 años generalmente <strong style="color:#fff">no cuenta con tarjeta bancaria propia</strong>. La decisión de pago involucra directamente a sus padres o tutores, quienes se convierten en el stakeholder financiero clave de esta etapa.</p>
+        </div>
+        <div class="step-desc">Tres rutas posibles: (1) el adolescente usa la versión gratuita y convence a sus padres del valor, (2) entra al plan familiar que los padres ya pagan, o (3) compra una gift card en OXXO con efectivo propio.</div>
+        <div class="step-tags" style="margin-bottom:12px">
           <span class="step-tag" style="border-color:rgba(61,255,122,0.3);color:var(--green-neon)">🧘 Sección Salud Mental</span>
-          <span class="step-tag" style="border-color:rgba(61,255,122,0.3);color:var(--green-neon)">💳 Spotify Premium</span>
+          <span class="step-tag" style="border-color:rgba(61,255,122,0.3);color:var(--green-neon)">💳 Premium / Plan Familiar</span>
           <span class="emotion-tag">😮‍💨 Alivio · Pertenencia</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);align-self:center">Stakeholders:</div>
+          <span style="padding:4px 12px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.2);border-radius:100px;font-size:0.72rem">🧑‍🎧 Adolescente — usuario y promotor interno</span>
+          <span style="padding:4px 12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:100px;font-size:0.72rem">👨‍👩‍👧 <strong>Padres — tomadores de decisión financiera</strong></span>
+          <span style="padding:4px 12px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:100px;font-size:0.72rem">🟢 Spotify — plan familiar $239/6 personas ≈ $40/persona</span>
+          <span style="padding:4px 12px;background:rgba(255,77,143,0.08);border:1px solid rgba(255,77,143,0.2);border-radius:100px;font-size:0.72rem">📱 Telcel/Movistar — plan de datos incluye Spotify</span>
         </div>
       </div>
 
       <div class="journey-step reveal">
         <div class="step-marker" style="border-color:var(--blue);color:var(--blue)">V</div>
-        <div class="step-phase" style="color:var(--blue)">Post-compra</div>
+        <div class="step-phase" style="color:var(--blue)">Post-compra y fidelización</div>
         <div class="step-title">Se convierte en hábito.</div>
-        <div class="step-desc">La app forma parte de su rutina de salud mental diaria. Guarda playlists, sigue podcasts de bienestar. El "Wrapped de Bienestar" lo hace sentir comprendido — y lo comparte.</div>
-        <div class="step-tags">
+        <div class="step-desc">La app se integra a la rutina de salud mental diaria. Guarda playlists, sigue podcasts de bienestar. El "Wrapped de Bienestar" lo hace sentir comprendido — y lo comparte en redes, generando nuevo ciclo de descubrimiento.</div>
+        <div class="step-tags" style="margin-bottom:12px">
           <span class="step-tag" style="border-color:rgba(0,212,255,0.3);color:var(--blue)">💚 Playlists guardadas</span>
           <span class="step-tag" style="border-color:rgba(0,212,255,0.3);color:var(--blue)">🎁 Wrapped de Bienestar</span>
           <span class="emotion-tag">🥰 Comprendido · Satisfecho</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);align-self:center">Stakeholders:</div>
+          <span style="padding:4px 12px;background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.2);border-radius:100px;font-size:0.72rem">🧑‍🎧 Adolescente — usuario recurrente y promotor</span>
+          <span style="padding:4px 12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:100px;font-size:0.72rem">👨‍👩‍👧 Padres — validan el beneficio, renuevan el plan</span>
+          <span style="padding:4px 12px;background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.15);border-radius:100px;font-size:0.72rem">👥 Amigos — contagio social del Wrapped</span>
+          <span style="padding:4px 12px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2);border-radius:100px;font-size:0.72rem">🟢 Spotify — retención y nuevo ciclo</span>
         </div>
       </div>
 
@@ -1443,9 +2297,9 @@
   </div>
 
   <!-- Puntos de venta -->
-  <div style="max-width:1100px;margin:80px auto 0">
+  <div style="max-width:1100px;margin:80px auto 0;">
     <h3 class="obj-section-title reveal">Puntos de Venta</h3>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto;">
       <div class="card reveal" style="text-align:center">
         <div style="font-size:2.5rem;margin-bottom:12px">📱</div>
         <h4 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;margin-bottom:6px">Digitales directos</h4>
@@ -1466,6 +2320,331 @@
 </section>
 
 <!-- FOOTER -->
+<!-- SECTION: FUERZAS QUE AFECTAN AL PRODUCTO -->
+<section id="fuerzas" style="background:#08080F">
+  <div class="section-number reveal">08 / Fuerzas que Afectan al Producto</div>
+  <h2 class="section-title reveal reveal-delay-1">El entorno<br><span style="color:var(--orange)">que nos rodea.</span></h2>
+  <p class="section-subtitle reveal reveal-delay-2">Factores sociales, económicos, regulatorios y tecnológicos que moldean la oportunidad de Spotify en el espacio de bienestar adolescente.</p>
+
+  <div style="max-width:1200px;display:flex;flex-direction:column;gap:16px;margin:0 auto;">
+
+    <div class="expand-block reveal" onclick="toggleExpand(this)">
+      <div class="expand-header">
+        <div class="expand-header-left">
+          <div class="expand-icon-box" style="background:rgba(255,77,143,0.12)">🌐</div>
+          <div>
+            <div class="expand-title" style="color:var(--pink)">Entorno Social</div>
+            <div class="expand-summary">Salud mental como tendencia cultural — +50% de crecimiento en contenido de bienestar</div>
+          </div>
+        </div>
+        <div class="expand-chevron">▾</div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-body-inner">
+          <p>En 2020, Spotify reportó un <strong>aumento del 50% en el consumo del género de salud mental</strong>, lo que generó un incremento directo en los minutos escuchados por usuarios interesados en este tema. Este dato confirma que la demanda de contenido de bienestar no es una tendencia pasajera, sino una corriente cultural en crecimiento sostenido.</p>
+          <p>En 2018, Spotify lanzó la iniciativa <strong>Heart & Soul</strong>, que busca trascender la distancia entre la música y la salud mental, ofreciendo a sus usuarios una oportunidad de obtener apoyo a través de la plataforma. Esta iniciativa surge de la fuerte corriente social vinculada a temas de racismo, violencia, inseguridad y bienestar emocional, demostrando que la plataforma ya reconoce su responsabilidad social.</p>
+          <p>En el contexto mexicano, la crisis de salud mental adolescente está profundamente ligada al <strong>estilo de vida digital actual</strong>: hiperconectividad, comparación social constante en redes, presión académica y el estigma cultural que impide buscar ayuda. Estos factores generan una demanda orgánica de herramientas accesibles y no estigmatizantes, exactamente lo que el ecosistema de bienestar de Spotify puede ofrecer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expand-block reveal" onclick="toggleExpand(this)">
+      <div class="expand-header">
+        <div class="expand-header-left">
+          <div class="expand-icon-box" style="background:rgba(255,230,0,0.1)">💰</div>
+          <div>
+            <div class="expand-title" style="color:var(--yellow)">Entorno Económico</div>
+            <div class="expand-summary">Liderazgo de mercado bajo presión de regalías — $11M pagados en 2025</div>
+          </div>
+        </div>
+        <div class="expand-chevron">▾</div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-body-inner">
+          <p>Spotify, al ser la plataforma de streaming más utilizada y reconocida mundialmente, mantiene superioridad en el entorno económico sobre cómo se mueve la industria. Sin embargo, los <strong>pagos por regalías representan una presión financiera constante</strong>: según reportes recientes, Spotify pagó alrededor de <strong>11 millones de dólares en regalías en 2025</strong>, lo que afecta directamente sus utilidades y la obliga a ajustar los precios de sus suscripciones para mantener márgenes saludables.</p>
+          <p>Este aumento de precios impacta la decisión final del consumidor adolescente, especialmente considerando que el usuario principal como Mateo no tiene autonomía económica propia. Sin embargo, la <strong>estrategia de precio híbrido propuesta</strong> — con acceso gratuito a funcionalidades básicas de bienestar y un plan premium adicional de $49 a $69 MXN mensuales — está diseñada precisamente para no depender del poder adquisitivo directo del adolescente, sino del plan familiar de sus padres.</p>
+          <p>En cuanto al entorno de salud mental, Spotify ha estado <strong>apoyando económicamente a creadores especializados</strong> como parte del programa Heart & Soul, creando un espacio de apoyo para usuarios que experimentan problemas emocionales y validando la inversión en este segmento.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expand-block reveal" onclick="toggleExpand(this)">
+      <div class="expand-header">
+        <div class="expand-header-left">
+          <div class="expand-icon-box" style="background:rgba(123,47,255,0.12)">⚖️</div>
+          <div>
+            <div class="expand-title" style="color:#B97FFF">Factores Regulatorios</div>
+            <div class="expand-summary">Regulación europea 2024 de contenido digital — nuevas exigencias de protección a menores</div>
+          </div>
+        </div>
+        <div class="expand-chevron">▾</div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-body-inner">
+          <p>Las potencias mundiales buscan cada vez con más detenimiento que el contenido sea <strong>adecuado para las generaciones jóvenes</strong>, especialmente en esta era digital en la que niños y adolescentes tienen acceso a internet desde edades muy tempranas. Spotify se ve afectado directamente por estas regulaciones — el ejemplo más común son las canciones con lenguaje explícito, pero el alcance regulatorio es mucho más amplio.</p>
+          <p>En 2024, diferentes países de la <strong>Unión Europea</strong> pusieron en vigor una regulación más estricta sobre las plataformas digitales que no cumplan con el manejo adecuado de contenido dañino o inadecuado, forzando a Spotify a mantener cautela con su sistema de moderación de contenido a nivel internacional.</p>
+          <p>En México, la legislación sobre <strong>protección de datos de menores</strong> se está endureciendo progresivamente, lo que podría limitar la capacidad de personalización algorítmica para usuarios menores de 18 años. Esta es una amenaza directa identificada en el FODA que la estrategia debe anticipar, priorizando modelos de personalización que sean transparentes y cumplan con las normativas vigentes y futuras en materia de privacidad infantil y adolescente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expand-block reveal" onclick="toggleExpand(this)">
+      <div class="expand-header">
+        <div class="expand-header-left">
+          <div class="expand-icon-box" style="background:rgba(0,212,255,0.1)">🤖</div>
+          <div>
+            <div class="expand-title" style="color:var(--blue)">Factores Tecnológicos</div>
+            <div class="expand-summary">IA de vanguardia — 1.5 billones de dispositivos compatibles para 2024</div>
+          </div>
+        </div>
+        <div class="expand-chevron">▾</div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-body-inner">
+          <p>Spotify se encuentra a la vanguardia del ámbito tecnológico, en constante mejora e invirtiendo activamente en <strong>inteligencia artificial</strong> para innovar dentro de la plataforma. Esto es visible en funcionalidades como las recomendaciones especializadas de canciones, el Discovery Weekly y el Daylist — una playlist que se actualiza en tiempo real según el estado emocional y los patrones de escucha del usuario.</p>
+          <p>Esta tecnología es ampliamente accesible: para 2024, Spotify era compatible con aproximadamente <strong>1.5 billones de dispositivos electrónicos a nivel global</strong>, lo que garantiza que prácticamente cualquier smartphone en manos de un adolescente mexicano puede ejecutar la plataforma sin fricciones técnicas.</p>
+          <p>En el contexto de la propuesta de bienestar, la tecnología de IA de Spotify tiene el potencial de <strong>dar meditaciones personalizadas, recomendaciones de podcasts de salud mental y Daily Mixes de bienestar</strong> adaptados al tipo de apoyo emocional que el usuario necesita en cada momento del día. Esta capacidad tecnológica no tiene equivalente en ninguna aplicación de bienestar especializada como Calm o Headspace, que dependen de contenido estático y no del aprendizaje continuo del comportamiento del usuario.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION: ESTRATEGIA DE MARKETING — LAS 4 P's -->
+<section id="estrategia" style="background:#060606">
+  <div class="section-number reveal">09 / Estrategia de Marketing</div>
+  <h2 class="section-title reveal reveal-delay-1">Las 4 P's<br><span style="color:var(--green-neon)">de la estrategia.</span></h2>
+  <p class="section-subtitle reveal reveal-delay-2">Producto, Plaza, Precio y Promoción — la estrategia completa que convierte a Spotify en el acompañante emocional de los adolescentes mexicanos.</p>
+
+  <div style="max-width:1200px;display:flex;flex-direction:column;gap:32px;margin:0 auto;">
+
+    <!-- PRODUCTO -->
+    <div class="reveal" style="background:linear-gradient(135deg,#0d1a0d 0%,#0a120a 100%);border:2px solid rgba(61,255,122,0.35);border-radius:28px;padding:48px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(61,255,122,0.1) 0%,transparent 60%);pointer-events:none"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(61,255,122,0.15);border:2px solid rgba(61,255,122,0.4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">🎯</div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-neon);margin-bottom:4px">Primera P</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:900;color:var(--green-neon);line-height:1">Producto</div>
+        </div>
+        <div style="margin-left:auto;padding:6px 16px;background:rgba(61,255,122,0.15);border:1px solid rgba(61,255,122,0.3);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--green-neon)">Ecosistema de Bienestar</div>
+      </div>
+
+      <p style="font-size:1rem;line-height:1.75;color:rgba(255,255,255,0.85);margin-bottom:24px">El producto no constituye una aplicación nueva ni un servicio externo a Spotify, sino una <strong style="color:#fff">expansión estratégica y formalización de las funcionalidades de bienestar emocional ya existentes</strong> dentro de la plataforma, articuladas bajo una propuesta de valor centrada en la salud mental adolescente. El producto se define como el ecosistema de bienestar emocional de Spotify: funcionalidades que ya operan pero que no han sido comunicadas ni posicionadas de manera deliberada hacia el segmento adolescente mexicano.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:28px">
+        <div style="background:rgba(61,255,122,0.07);border:1px solid rgba(61,255,122,0.2);border-radius:16px;padding:20px">
+          <div style="font-size:1.3rem;margin-bottom:8px">🎭</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-neon);margin-bottom:6px">Playlists por Estado de Ánimo</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6">Herramientas de regulación emocional respaldadas por psicología de la música. Estudios confirman que escuchar música según el estado afectivo genera efectos medibles en la reducción del cortisol y la mejora del estado emocional.</p>
+        </div>
+        <div style="background:rgba(61,255,122,0.07);border:1px solid rgba(61,255,122,0.2);border-radius:16px;padding:20px">
+          <div style="font-size:1.3rem;margin-bottom:8px">⚡</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-neon);margin-bottom:6px">Daylist — IA Emocional</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6">Playlist generada por IA que se actualiza en tiempo real según el humor, la hora del día y los patrones de escucha. La capacidad más sofisticada de Spotify para leer y responder al contexto emocional de cada persona.</p>
+        </div>
+        <div style="background:rgba(61,255,122,0.07);border:1px solid rgba(61,255,122,0.2);border-radius:16px;padding:20px">
+          <div style="font-size:1.3rem;margin-bottom:8px">🧠</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-neon);margin-bottom:6px">Podcasts de Bienestar en Español</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6">Catálogo de contenido sobre ansiedad, estrés, mindfulness y salud emocional. Actualmente disponible en la plataforma pero sin visibilidad estratégica para el público adolescente mexicano.</p>
+        </div>
+        <div style="background:rgba(61,255,122,0.07);border:1px solid rgba(61,255,122,0.2);border-radius:16px;padding:20px">
+          <div style="font-size:1.3rem;margin-bottom:8px">🌙</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-neon);margin-bottom:6px">Meditaciones & Audio Guiado</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6">Sesiones de respiración, narrativas terapéuticas y ejercicios de atención plena en español, producidos en colaboración con psicólogos mexicanos e integrados al ecosistema musical.</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(61,255,122,0.1);border:1px solid rgba(61,255,122,0.25);border-radius:16px;padding:24px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-neon);margin-bottom:10px">🔑 Propuesta de Valor Central</div>
+        <p style="font-size:0.9rem;color:rgba(255,255,255,0.85);line-height:1.7">Una herramienta de apoyo emocional <strong style="color:#fff">no clínica, accesible, no estigmatizante y disponible en el momento preciso</strong> en que el adolescente la necesita. Sin citas médicas, sin desplazamiento físico, sin costo inicial. La nueva pestaña <strong style="color:#fff">"Bienestar"</strong> dentro de la app — visible junto a "Todo", "Música" y "Podcasts" — funcionará como punto de entrada al ecosistema, con acceso gratuito a funcionalidades básicas y un plan premium adicional de $49–$69 MXN/mes para contenido avanzado.</p>
+      </div>
+    </div>
+
+    <!-- PLAZA -->
+    <div class="reveal" style="background:linear-gradient(135deg,#0a0a1a 0%,#08080f 100%);border:2px solid rgba(0,212,255,0.35);border-radius:28px;padding:48px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 10% 90%,rgba(0,212,255,0.1) 0%,transparent 60%);pointer-events:none"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(0,212,255,0.15);border:2px solid rgba(0,212,255,0.4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">🗺️</div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px">Segunda P</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:900;color:var(--blue);line-height:1">Plaza</div>
+        </div>
+        <div style="margin-left:auto;padding:6px 16px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--blue)">Distribución Digital Óptima</div>
+      </div>
+
+      <p style="font-size:1rem;line-height:1.75;color:rgba(255,255,255,0.85);margin-bottom:28px">La decisión de <strong style="color:#fff">no modificar los canales de distribución externos</strong> responde a una razón estratégica clara: la infraestructura de distribución digital que Spotify ya tiene construida es óptima para el segmento adolescente mexicano y no representa ninguna barrera de acceso. Modificar o agregar canales representaría un costo estratégico sin beneficio proporcional, ya que Spotify ya está instalada en la mayoría de los dispositivos del segmento objetivo.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px">
+        <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:20px;text-align:center">
+          <div style="font-size:2rem;margin-bottom:10px">📱</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--blue);margin-bottom:6px">Puntos Digitales Directos</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5">App Store, Google Play y Spotify.com concentran el 100% del consumo digital de apps entre jóvenes de 13 a 24 años en México.</p>
+        </div>
+        <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:20px;text-align:center">
+          <div style="font-size:2rem;margin-bottom:10px">🏪</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--blue);margin-bottom:6px">Gift Cards Físicas</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5">OXXO, 7-Eleven y Walmart permiten que adolescentes sin cuenta bancaria accedan a Premium con efectivo propio.</p>
+        </div>
+        <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:20px;text-align:center">
+          <div style="font-size:2rem;margin-bottom:10px">📡</div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--blue);margin-bottom:6px">Alianzas Telco</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5">Telcel y Movistar incluyen Spotify en planes de datos, facilitando acceso sin costo adicional para el segmento joven.</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:24px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px">🔑 La intervención ocurre dentro de la app</div>
+        <p style="font-size:0.9rem;color:rgba(255,255,255,0.85);line-height:1.7">Aunque no se modifican los canales externos, <strong style="color:#fff">sí se propone una mejora sustancial al proceso de compra interno</strong>. La plaza no se limita al canal de descarga — incluye la experiencia dentro de la plataforma como espacio de venta. Cuando el adolescente experimente por primera vez el contenido de bienestar en la versión gratuita, la interfaz presentará de forma natural y no invasiva la opción de acceder al plan premium. La navegación interna se optimizará con íconos intuitivos, recomendaciones personalizadas y accesos directos desde la pantalla de inicio, reduciendo los pasos necesarios para que el adolescente encuentre el contenido de bienestar relevante para él.</p>
+      </div>
+    </div>
+
+    <!-- PRECIO -->
+    <div class="reveal" style="background:linear-gradient(135deg,#1a1400 0%,#100c00 100%);border:2px solid rgba(255,230,0,0.35);border-radius:28px;padding:48px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 80% 80%,rgba(255,230,0,0.08) 0%,transparent 60%);pointer-events:none"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,230,0,0.12);border:2px solid rgba(255,230,0,0.4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">💰</div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--yellow);margin-bottom:4px">Tercera P</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:900;color:var(--yellow);line-height:1">Precio</div>
+        </div>
+        <div style="margin-left:auto;padding:6px 16px;background:rgba(255,230,0,0.1);border:1px solid rgba(255,230,0,0.3);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--yellow)">Modelo Híbrido de Valor</div>
+      </div>
+
+      <p style="font-size:1rem;line-height:1.75;color:rgba(255,255,255,0.85);margin-bottom:28px">La estrategia de precio se plantea bajo un <strong style="color:#fff">modelo de valor agregado con costo adicional opcional</strong>, integrado dentro de la suscripción ya existente. Se propone una estrategia híbrida en la que una parte del ecosistema de bienestar se mantiene de acceso gratuito, mientras que las funcionalidades más avanzadas se integran bajo un plan premium con <strong style="color:var(--yellow)">precio adicional de $49 a $69 MXN mensuales</strong> sobre la suscripción Premium existente.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px">
+        <div style="background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.2);border-radius:16px;padding:24px">
+          <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:900;color:var(--yellow);margin-bottom:8px">🆓 Acceso Gratuito</div>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;margin-bottom:12px">Playlists basadas en estados de ánimo, Daylist personalizado y una selección de podcasts de bienestar mental. Esto maximiza la adopción y elimina barreras de entrada en el segmento adolescente, especialmente para Mateo, quien no tiene autonomía económica propia.</p>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.7)">✅ Playlists emocionales</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.7)">✅ Daylist IA</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.7)">✅ Selección de podcasts de bienestar</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,230,0,0.1);border:2px solid rgba(255,230,0,0.35);border-radius:16px;padding:24px;position:relative">
+          <div style="position:absolute;top:-10px;left:20px;background:var(--yellow);color:#000;font-size:0.62rem;font-weight:900;padding:3px 12px;border-radius:100px;letter-spacing:0.08em">★ PLAN BIENESTAR PREMIUM</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:900;color:var(--yellow);line-height:1;margin-top:8px;margin-bottom:4px">$49–$69</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:16px">MXN / mes adicional</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.8)">⭐ Programas estructurados de bienestar</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.8)">⭐ Meditaciones guiadas avanzadas</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.8)">⭐ Contenido exclusivo con psicólogos MX</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.8)">⭐ Sin interrupciones en momentos de calma</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+        <div style="text-align:center;padding:20px;background:rgba(255,255,255,0.03);border-radius:14px;border:1px solid rgba(255,255,255,0.07)">
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;color:var(--yellow)">No canibaliza</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px">los planes Premium actuales — genera una nueva línea de ingresos independiente</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(255,255,255,0.03);border-radius:14px;border:1px solid rgba(255,255,255,0.07)">
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;color:var(--yellow)">Alto valor percibido</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px">comparable con Calm ($69 USD/año) y Headspace ($12.99 USD/mes), pero sin cambiar de app</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(255,255,255,0.03);border-radius:14px;border:1px solid rgba(255,255,255,0.07)">
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;color:var(--yellow)">Impacto social</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px">el bienestar no se percibe como lujo, sino como complemento accesible de la experiencia digital</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,230,0,0.08);border:1px solid rgba(255,230,0,0.2);border-radius:16px;padding:20px">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:8px">🔑 Ventaja frente a competidores indirectos</div>
+        <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.65">Spotify tiene un diferenciador clave: la <strong style="color:#fff">integración directa en una plataforma que los adolescentes ya usan diariamente</strong>. Esto reduce drásticamente la fricción de adopción y elimina la necesidad de descargar una app externa como Calm o Headspace. La estrategia de precio no solo busca generar ingresos — busca maximizar el alcance, reforzar el posicionamiento del bienestar como servicio valioso y consolidar una propuesta socialmente consciente dentro del ecosistema de Spotify.</p>
+      </div>
+    </div>
+
+    <!-- PROMOCIÓN -->
+    <div class="reveal" style="background:linear-gradient(135deg,#1a0814 0%,#100008 100%);border:2px solid rgba(255,77,143,0.35);border-radius:28px;padding:48px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,77,143,0.1) 0%,transparent 60%);pointer-events:none"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,77,143,0.15);border:2px solid rgba(255,77,143,0.4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">📣</div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink);margin-bottom:4px">Cuarta P</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:900;color:var(--pink);line-height:1">Promoción</div>
+        </div>
+        <div style="margin-left:auto;padding:6px 16px;background:rgba(255,77,143,0.1);border:1px solid rgba(255,77,143,0.3);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--pink)">3 Estrategias Integradas</div>
+      </div>
+
+      <p style="font-size:1rem;line-height:1.75;color:rgba(255,255,255,0.85);margin-bottom:36px">La estrategia de promoción se articula en <strong style="color:#fff">tres iniciativas complementarias</strong> que cubren desde el marketing digital y experiencial hasta la filantropía corporativa, diseñadas para generar conciencia, deseo y conversión en el segmento adolescente mexicano.</p>
+
+      <!-- FLIP CARDS — 3 estrategias en fila -->
+      <div class="promo-flip-grid">
+
+        <!-- CARD 1: WRAPPED DE BIENESTAR -->
+        <div class="promo-flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="promo-card-inner">
+            <div class="promo-card-front">
+              <span class="promo-strat-num">ESTRATEGIA 01</span>
+              <div class="promo-strat-title">🎁 Wrapped de<br>Bienestar</div>
+              <p class="promo-strat-desc">Convierte los datos de escucha en historias de impacto emocional profundo, normalizando Spotify como herramienta de bienestar y generando viralidad orgánica tipo Wrapped.</p>
+              <div class="promo-phases">
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--orange)"></span><span>Oct — Fase de Prueba</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--yellow)"></span><span>Nov–Dic — Implementación</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--green-neon)"></span><span>Ene — Ajustes finales</span></div>
+              </div>
+              <div class="promo-flip-hint">Ver poster ↻</div>
+            </div>
+            <div class="promo-card-back">
+              <img src="assets/poster1.jpeg" alt="Poster Wrapped de Bienestar">
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: ESTACIONES DE RESPIRO -->
+        <div class="promo-flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="promo-card-inner">
+            <div class="promo-card-front">
+              <span class="promo-strat-num">ESTRATEGIA 02</span>
+              <div class="promo-strat-title">🎧 Estaciones de<br>Respiro</div>
+              <p class="promo-strat-desc">Marketing experiencial BTL: cabinas con cancelación de ruido en zonas de alto estrés juvenil durante mayo, Mes de la Salud Mental.</p>
+              <div class="promo-phases">
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--orange)"></span><span>Abr — Prueba y espectaculares</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--yellow)"></span><span>May — Lanzamiento y activación</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--green-neon)"></span><span>Jun — Conversión Premium</span></div>
+              </div>
+              <div class="promo-flip-hint">Ver poster ↻</div>
+            </div>
+            <div class="promo-card-back">
+              <img src="assets/poster2.jpeg" alt="Poster Estaciones de Respiro">
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: SINTONÍA SOLIDARIA -->
+        <div class="promo-flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="promo-card-inner">
+            <div class="promo-card-front">
+              <span class="promo-strat-num">ESTRATEGIA 03</span>
+              <div class="promo-strat-title">💚 Sintonía<br>Solidaria</div>
+              <p class="promo-strat-desc">Filantropía corporativa: en septiembre, Mes de Prevención del Suicidio, Spotify dona las ganancias de reproducciones de bienestar a fundaciones aliadas.</p>
+              <div class="promo-phases">
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--orange)"></span><span>Ago — Expectativa y alianzas</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--yellow)"></span><span>Sep — "Tú escuchas, donamos"</span></div>
+                <div class="promo-phase-row"><span class="phase-dot" style="background:var(--green-neon)"></span><span>Oct — Rendición de cuentas</span></div>
+              </div>
+              <div class="promo-flip-hint">Ver poster ↻</div>
+            </div>
+            <div class="promo-card-back">
+              <img src="assets/poster3.jpeg" alt="Poster Sintonía Solidaria">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="background:rgba(255,77,143,0.1);border:1px solid rgba(255,77,143,0.25);border-radius:14px;padding:18px;margin-top:20px">
+        <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.65">🎯 <strong style="color:#fff">Objetivo final de las 3 estrategias:</strong> Que el adolescente mexicano pase de conocer el producto, a desearlo, a adoptarlo como parte permanente de su rutina de autocuidado — consolidando a Spotify como el acompañante emocional de su generación.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-logo">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
@@ -1503,7 +2682,7 @@ function animTrail() {
 }
 animTrail();
 
-document.querySelectorAll('a,button,.card,.pillar-card,.feature-row,.obj-item,.persona-card,.foda-card,.journey-step,.profile-bubble,.brand-dot').forEach(el => {
+document.querySelectorAll('a,button,.card,.pillar-card,.feature-row,.persona-card,.journey-step,.profile-bubble,.brand-dot,.quick-fact,.expand-block').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
   el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
 });
@@ -1519,7 +2698,6 @@ window.addEventListener('scroll', () => {
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ANIMATE BARS ON REVEAL
@@ -1527,22 +2705,19 @@ const barObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.querySelectorAll('.comp-bar-fill').forEach(b => {
-        const w = b.style.width;
-        b.style.width = '0';
+        const w = b.style.width; b.style.width = '0';
         setTimeout(() => b.style.width = w, 200);
       });
     }
   });
 }, { threshold: 0.3 });
-
 const posSection = document.getElementById('posicionamiento');
 if (posSection) barObserver.observe(posSection);
 
-// SMOOTH SECTION TRANSITIONS (parallax-lite)
+// PARALLAX
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  document.querySelectorAll('.hero-bg-shape').forEach(shape => {
-    shape.style.transform = `translateY(${scrollY * 0.3}px)`;
+  document.querySelectorAll('.hero-bg-shape').forEach(s => {
+    s.style.transform = `translateY(${window.scrollY * 0.3}px)`;
   });
 });
 
@@ -1551,13 +2726,9 @@ const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 200) current = s.id;
-  });
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
   navLinks.forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + current
-      ? 'var(--green-neon)'
-      : 'rgba(255,255,255,0.55)';
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--green-neon)' : 'rgba(255,255,255,0.55)';
   });
 });
 
@@ -1570,6 +2741,182 @@ if (trackProgress) {
     trackProgress.style.width = w + '%';
   }, 500);
 }
+
+// ===== EXPAND / COLLAPSE =====
+function toggleExpand(block) {
+  const isOpen = block.classList.contains('open');
+  // close all others in same parent
+  block.parentElement.querySelectorAll('.expand-block.open').forEach(b => {
+    if (b !== block) b.classList.remove('open');
+  });
+  block.classList.toggle('open', !isOpen);
+}
+
+// ===== MODAL DATA =====
+const modalData = {
+  'marca-fundacion': {
+    tag: '📅 Historia de la marca', color: '#3DFF7A',
+    title: 'Spotify: de startup a líder global',
+    body: `<p>Spotify fue fundada en <strong>2006 en Estocolmo, Suecia</strong>, por Daniel Ek y Martin Lorentzon como respuesta directa a la piratería digital de música que dominaba la época.</p>
+    <p>Su lanzamiento comercial fue en <strong>2008</strong> con un modelo que mezclaba acceso gratuito con suscripción Premium. Desde entonces, transformó radicalmente la manera en que el mundo consume música, podcasts y contenido de audio.</p>
+    <p>Hoy es la plataforma de streaming de audio más grande del mundo, con presencia en <strong>más de 180 países</strong> y una base de usuarios que supera los 600 millones mensuales.</p>`,
+    facts: ['🇸🇪 Fundada en Estocolmo', '📅 Lanzamiento comercial 2008', '🌍 Presente en 180+ países', '🎵 Transformó la industria musical']
+  },
+  'marca-usuarios': {
+    tag: '📊 Audiencia global', color: '#3DFF7A',
+    title: '600M+ usuarios activos mensuales',
+    body: `<p>Spotify cuenta con <strong>más de 600 millones de usuarios activos mensuales</strong> a nivel global, consolidándose como la plataforma de streaming de audio más utilizada del mundo.</p>
+    <p>De estos usuarios, cerca de <strong>240 millones son suscriptores Premium</strong>, lo que representa aproximadamente el 40% de su base total — una tasa de conversión significativamente alta para el modelo freemium.</p>
+    <p>En México, Spotify domina especialmente entre jóvenes de <strong>13 a 24 años</strong>, con presencia transversal en todos los niveles socioeconómicos gracias a su modelo gratuito con anuncios.</p>`,
+    facts: ['600M+ usuarios globales', '240M suscriptores Premium', '~40% tasa de conversión', 'Domina en jóvenes 13-24 MX']
+  },
+  'marca-premium': {
+    tag: '💚 Modelo de negocio', color: '#3DFF7A',
+    title: '240M suscriptores Premium — el modelo freemium más exitoso',
+    body: `<p>El modelo freemium de Spotify es estratégicamente brillante para nuestro objetivo de salud mental adolescente: <strong>permite acceso completo al contenido de bienestar sin costo inicial</strong>, eliminando la principal barrera de adopción.</p>
+    <p>Un adolescente mexicano puede acceder a todas las playlists emocionales y podcasts de bienestar desde la versión gratuita. El upgrade a Premium añade la experiencia sin interrupciones — crítica para momentos de ansiedad o meditación.</p>
+    <p>Esto contrasta directamente con Calm y Headspace, que bloquean la mayoría de su contenido detrás de un paywall obligatorio en dólares.</p>`,
+    facts: ['240M Premium globales', 'Acceso a bienestar desde versión gratuita', 'Upgrade motivado por bienestar', 'Sin paywall inmediato']
+  },
+  'marca-paises': {
+    tag: '🗺️ Presencia global', color: '#3DFF7A',
+    title: 'Presente en 180+ países',
+    body: `<p>Spotify opera en <strong>más de 180 países</strong>, incluyendo todos los mercados de América Latina. Esta escala global le da acceso a artistas, podcasters y creadores de contenido de bienestar en prácticamente cualquier idioma.</p>
+    <p>En México y América Latina, Spotify es uno de sus mercados de <strong>mayor crecimiento a nivel global</strong>. La región representa una oportunidad enorme — y subexplotada — para iniciativas de bienestar en español.</p>`,
+    facts: ['180+ países con presencia activa', 'LATAM: mercado de mayor crecimiento', 'Contenido disponible en español', 'Alianza UNICEF en 7 países LATAM']
+  },
+  'marca-mercado': {
+    tag: '📈 Posición competitiva', color: '#3DFF7A',
+    title: '31% del mercado global de streaming',
+    body: `<p>Spotify domina el <strong>31% del mercado global de streaming de audio</strong>, siendo la plataforma más consumida del mundo en su categoría. Esto le da una ventaja de escala que ningún competidor puede igualar en el corto plazo.</p>
+    <p>Sus principales competidores directos — Apple Music, YouTube Music y Amazon Music — se quedan significativamente atrás en personalización algorítmica y diversidad de contenido (música + podcasts + audiolibros).</p>`,
+    facts: ['31% market share global', '#1 plataforma streaming mundial', 'Supera a Apple Music, YouTube Music', 'Ventaja en personalización IA']
+  },
+  'marca-mexico': {
+    tag: '🇲🇽 México', color: '#3DFF7A',
+    title: '+35% del mercado de streaming en México',
+    body: `<p>En México, Spotify captura <strong>más del 35% del mercado de streaming musical</strong>, liderando frente a competidores como Apple Music, YouTube Music y Amazon Music.</p>
+    <p>La plataforma está profundamente integrada en la vida cotidiana de los jóvenes mexicanos, quienes la utilizan no solo como entretenimiento, sino como un <strong>compañero emocional constante</strong>. Esta relación afectiva con la marca representa la oportunidad estratégica central de este proyecto.</p>
+    <p>Su penetración en la Generación Z mexicana es especialmente alta — la mayoría de los adolescentes de 13 a 24 años tiene Spotify instalado en su teléfono.</p>`,
+    facts: ['+35% market share MX', 'Líder indiscutible en Gen Z', 'App instalada en la mayoría de teens', 'Compañero emocional cotidiano']
+  },
+  'nec-encodat': {
+    tag: '📋 ENCODAT 2025', color: '#FF4D8F',
+    title: '1.3 millones de adolescentes con malestar psicológico',
+    body: `<p>De acuerdo con la <strong>Encuesta Nacional de Consumo de Drogas, Alcohol y Tabaco (ENCODAT) 2025</strong>, el 10% de las personas de 12 a 17 años presentaron malestar psicológico en los últimos 12 meses en México.</p>
+    <p>Esto equivale a <strong>1.3 millones de adolescentes</strong> que experimentaban incomodidad emocional que se manifestaba como ansiedad, estrés, insatisfacción o angustia — sin que necesariamente se cumplieran los criterios para un trastorno mental diagnosticado.</p>
+    <p>Este porcentaje (10%) es <strong>mayor al de adultos de 18 a 65 años</strong> (7.8%), lo que confirma que los adolescentes son el grupo más vulnerable emocionalmente.</p>`,
+    facts: ['10% de jóvenes 12-17 años', '1.3 millones de adolescentes', 'Mayor que adultos (7.8%)', 'Fuente: ENCODAT 2025']
+  },
+  'nec-redes': {
+    tag: '📱 Redes sociales y salud mental', color: '#FF4D8F',
+    title: 'Doble riesgo con más de 3 horas diarias en redes',
+    body: `<p>Especialistas en salud mental señalan que los adolescentes que pasan <strong>más de 3 horas al día en plataformas digitales presentan el doble de riesgo</strong> de padecer síntomas de ansiedad y depresión.</p>
+    <p>La sobreexposición a contenido digital actúa como un generador constante de dopamina, lo que dificulta el control del tiempo frente a pantallas y puede provocar desórdenes emocionales, pérdida de concentración y alteraciones en el ciclo del sueño.</p>
+    <p>Durante la adolescencia — etapa marcada por la búsqueda de identidad y pertenencia — las redes sociales funcionan como escenarios de <strong>validación y presión constante</strong>, haciendo a los jóvenes especialmente vulnerables.</p>`,
+    facts: ['×2 riesgo con >3 hrs/día', 'Dopamina y gratificación inmediata', 'Alteraciones en sueño y concentración', 'Fuente: Excélsior / Especialistas 2025']
+  },
+  'nec-genz': {
+    tag: '😟 UNICEF México', color: '#FF4D8F',
+    title: '70% de la Gen Z mexicana se siente abrumada',
+    body: `<p>El informe <strong>"La salud mental de la Generación Z en México"</strong> de UNICEF muestra a una juventud empoderada pero sobrecargada por crisis globales, noticias constantes y estigma social.</p>
+    <p>Aunque los jóvenes mexicanos son más optimistas que sus pares en otros países, <strong>más del 70% se sienten abrumados</strong> y más del 50% ha necesitado ayuda psicológica en algún momento.</p>
+    <p>El estudio destaca la necesidad de fortalecer el apoyo institucional, promover espacios seguros y fomentar una conversación abierta sobre bienestar mental — exactamente lo que Spotify puede facilitar.</p>`,
+    facts: ['+70% se siente abrumada', '+50% ha necesitado ayuda psicológica', 'Sobrecarga por noticias y redes', 'Fuente: UNICEF México']
+  },
+  'nec-unicef': {
+    tag: '🧒 UNICEF 2019 / UNAM 2025', color: '#FF4D8F',
+    title: '12% de jóvenes de 10-19 años afectados',
+    body: `<p>Se estima que alrededor del <strong>12% de los mexicanos entre 10 y 19 años</strong> están afectados por uno o más problemas de salud mental, según datos de UNICEF (2019) confirmados por investigaciones de la UNAM en 2025.</p>
+    <p>Los problemas más recurrentes son: trastorno de ansiedad, déficit de atención, depresión, uso de sustancias y conducta suicida. En México, el <strong>15% de los menores de 18 años presenta trastornos mentales</strong> según el Instituto Nacional de Salud Pública (INSP).</p>
+    <p>La gran mayoría no recibe atención especializada debido a barreras económicas, sociales y culturales — incluyendo el estigma que impide buscar ayuda.</p>`,
+    facts: ['12% de jóvenes 10-19 años', '15% menores de 18 (INSP)', 'Ansiedad, depresión, TDAH', 'Fuente: UNICEF 2019 / UNAM 2025']
+  },
+  'nec-suicidio': {
+    tag: '⚠️ INEGI 2017-2022', color: '#FF4D8F',
+    title: '+114% en tasa de suicidio en jóvenes de 15-19 años',
+    body: `<p>La tasa de suicidio en jóvenes de 15 a 19 años en México <strong>aumentó un 114% entre 2017 y 2022</strong>, según datos del Instituto Nacional de Estadística y Geografía (INEGI 2023).</p>
+    <p>A nivel mundial, el suicidio es la quinta causa de muerte en adolescentes de 10 a 19 años, con 45,800 fallecimientos anuales (UNICEF 2022). Estas cifras hablan de la urgencia de intervenciones accesibles y no clínicas como punto de primer contacto.</p>
+    <p>Spotify, desde su posición privilegiada como app ya instalada en millones de teléfonos adolescentes, puede funcionar como ese primer punto de contacto emocional seguro.</p>`,
+    facts: ['+114% en tasa de suicidio', 'Jóvenes 15-19 años', '5ta causa de muerte adolescente mundial', 'Fuente: INEGI 2017-2022']
+  },
+  'nec-redes-uso': {
+    tag: '⏱️ Top Doctors MX, 2025', color: '#FF4D8F',
+    title: '37% de jóvenes mexicanos pasan +5 horas al día en redes',
+    body: `<p>Según datos de Top Doctors México (2025), el <strong>37% de los jóvenes en México pasan más de 5 horas al día en redes sociales</strong>, lo que puede afectar su rendimiento académico y su bienestar emocional.</p>
+    <p>Paradójicamente, aunque las redes sociales están diseñadas para conectar personas, su uso excesivo puede generar un sentimiento de <strong>soledad y afectar las habilidades de comunicación</strong> en la vida real. El 70% de los usuarios mexicanos revisa su celular antes de dormir.</p>
+    <p>Adicionalmente, el <strong>40% de los jóvenes en México se siente presionado por su apariencia física</strong> debido a los estándares que ven en redes sociales.</p>`,
+    facts: ['37% pasan >5 hrs/día', '70% revisa celular antes de dormir', '40% presionado por su apariencia', 'Fuente: Top Doctors MX 2025']
+  },
+  'pos-spotify': {
+    tag: '🥇 Posicionamiento global', color: '#3DFF7A',
+    title: 'Spotify domina el streaming mundial con 31%',
+    body: `<p>Spotify domina el <strong>31% del mercado global de streaming de audio</strong>, siendo la plataforma más consumida del mundo. Sus principales competidores — Apple Music (15%), YouTube Music (13%) y Amazon Music (9%) — se quedan significativamente atrás.</p>
+    <p>Su ventaja competitiva se basa en dos atributos clave que influyen en la elección del consumidor: <strong>personalización de la experiencia y diversidad de contenido</strong> (música, podcasts, audiolibros). A diferencia de los competidores, Spotify se adapta a los gustos, hábitos y rutinas del usuario.</p>`,
+    facts: ['31% market share global', 'Supera a Apple Music (15%)', 'Mayor personalización algorítmica', 'Única app con música + podcasts + audiolibros']
+  },
+  'pos-catalogo': {
+    tag: '🎵 Catálogo', color: '#3DFF7A',
+    title: 'Más de 100 millones de canciones disponibles',
+    body: `<p>Spotify ofrece acceso a <strong>más de 100 millones de canciones</strong>, además de millones de episodios de podcasts y audiolibros — todo en una sola plataforma. Esta amplitud de catálogo es inigualable en el mercado.</p>
+    <p>Sus algoritmos avanzados analizan el comportamiento de más de <strong>600 millones de usuarios activos</strong>, generando recomendaciones altamente precisas. El Daylist, Discover Weekly y los Daily Mixes son ejemplos de cómo la IA de Spotify traduce datos en experiencias emocionales personalizadas.</p>`,
+    facts: ['100M+ canciones', 'Millones de podcasts y audiolibros', 'Daylist: IA emocional en tiempo real', 'Discover Weekly y Daily Mixes']
+  },
+  'pos-calm': {
+    tag: '🧘 Competencia indirecta', color: '#B97FFF',
+    title: 'Calm — app de meditación sin acceso real para adolescentes MX',
+    body: `<p>Calm es la app de meditación más descargada del mundo con <strong>40 millones de descargas globales</strong> y un 99% de satisfacción. Su contenido incluye meditaciones guiadas, historias para dormir y música de relajación.</p>
+    <p>Sin embargo, presenta barreras críticas para el adolescente mexicano: su precio de <strong>~$69 USD/año</strong> varía según conversión al mercado local (sin precio fijo en MXN), no tiene modelo freemium real, y su penetración en México es muy baja.</p>
+    <p>Plan familiar: $99.99 USD/año para hasta 6 miembros. Prueba gratuita de 7 días disponible.</p>`,
+    facts: ['~$69 USD/año individual', '$99.99 USD/año familiar', '7 días de prueba gratuita', 'Sin precio fijo en MXN', 'Sin plan estudiante en MX']
+  },
+  'pos-headspace': {
+    tag: '🧠 Competencia indirecta', color: '#FF6B35',
+    title: 'Headspace — mindfulness en inglés, sin acceso para teens MX',
+    body: `<p>Headspace es una app de mindfulness y meditación guiada con enfoque en el desarrollo de hábitos. Su contenido incluye cursos de meditación, ejercicios de concentración y técnicas para el manejo del estrés.</p>
+    <p>Sus precios en USD: <strong>$12.99/mes o ~$5.83/mes en plan anual</strong>. El plan familiar cuesta $99.99 USD/año. Sin embargo, su plan para estudiantes <strong>no está disponible en México</strong> — solo para universidades acreditadas en Estados Unidos.</p>
+    <p>Principal barrera: está mayormente en inglés, lo que representa una barrera idiomática real para el adolescente mexicano promedio.</p>`,
+    facts: ['$12.99 USD/mes', '~$5.83 USD/mes (plan anual)', 'Sin plan estudiante en México', 'Principalmente en inglés', '14 días de prueba gratuita']
+  },
+  'pos-ventaja': {
+    tag: '⚡ Ventaja estratégica', color: '#3DFF7A',
+    title: 'Spotify ya tiene al adolescente — Calm y Headspace no',
+    body: `<p>La ventaja competitiva más poderosa de Spotify sobre Calm y Headspace es simple pero devastadora: <strong>Spotify ya está instalada en el teléfono del adolescente mexicano</strong>. Calm y Headspace tienen que conquistarlo desde cero.</p>
+    <p>Calm y Headspace compiten con barreras adicionales: están principalmente en inglés, requieren pago obligatorio en dólares, no tienen plan estudiante en México y tienen baja penetración cultural en el segmento objetivo.</p>
+    <p>Spotify, en cambio, ya tiene la confianza del usuario, su historial de escucha, su contexto emocional — y una IA que lo entiende mejor que cualquier otra app. La pregunta no es si puede competir, sino <strong>cuándo decide hacerlo de forma deliberada</strong>.</p>`,
+    facts: ['Ya instalada en millones de teens MX', 'IA con historial emocional del usuario', 'Gratuita desde el primer día', 'Calm y Headspace parten de cero en MX']
+  }
+};
+
+// ===== MODAL FUNCTIONS =====
+function openModal(key) {
+  const data = modalData[key];
+  if (!data) return;
+  document.getElementById('modalTag').textContent = data.tag;
+  document.getElementById('modalTag').style.color = data.color;
+  document.getElementById('modalTitle').textContent = data.title;
+  document.getElementById('modalBody').innerHTML = data.body;
+  const factsEl = document.getElementById('modalFacts');
+  if (data.facts && data.facts.length) {
+    factsEl.style.display = 'flex';
+    factsEl.innerHTML = data.facts.map(f => `<span class="modal-fact-pill">${f}</span>`).join('');
+  } else {
+    factsEl.style.display = 'none';
+  }
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
